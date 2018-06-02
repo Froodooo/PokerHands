@@ -4,7 +4,7 @@ defmodule PokerHands.Rankers.SinglePairRanker do
   @behaviour HandRanker
 
   def rank(hand) do
-    pairs = get_single_pairs(hand)
+    pairs = CardHelper.get_pairs(hand)
     if Enum.count(pairs) == 0 do
       {false, []}
     else
@@ -21,13 +21,5 @@ defmodule PokerHands.Rankers.SinglePairRanker do
     pairs_flat = Enum.flat_map(pairs_list, fn(x) -> x end)
     pairs_indices = Enum.map(pairs_flat, fn(x) -> elem(x, 1) end)
     pairs_indices
-  end
-
-  defp get_single_pairs(hand) do
-    hand_order_indexed = CardHelper.get_hand_order_indexed(hand)
-    hand_order_grouped = Enum.group_by(hand_order_indexed, fn(x) -> elem(x, 0) end)
-    hand_order_grouped_values = Map.values(hand_order_grouped)
-    pairs = Enum.filter(hand_order_grouped_values, fn(x) -> Enum.count(x) == 2 end)
-    pairs
   end
 end

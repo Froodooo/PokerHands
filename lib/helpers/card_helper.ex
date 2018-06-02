@@ -32,4 +32,12 @@ defmodule PokerHands.Helpers.CardHelper do
     result
   end
 
+  def get_pairs(hand) do
+    hand_order_indexed = get_hand_order_indexed(hand)
+    hand_order_grouped = Enum.group_by(hand_order_indexed, fn(x) -> elem(x, 0) end)
+    hand_order_grouped_values = Map.values(hand_order_grouped)
+    pairs = Enum.filter(hand_order_grouped_values, fn(x) -> Enum.count(x) == 2 end)
+    pairs
+  end
+
 end
