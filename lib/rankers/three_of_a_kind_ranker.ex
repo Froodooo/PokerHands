@@ -1,10 +1,10 @@
-defmodule PokerHands.Rankers.SinglePairRanker do
+defmodule PokerHands.Rankers.ThreeOfAKindRanker do
   alias PokerHands.Rankers.HandRanker, as: HandRanker
   alias PokerHands.Helpers.CardHelper, as: CardHelper
   @behaviour HandRanker
 
   def rank(hand) do
-    sets = CardHelper.get_sets(hand, 2)
+    sets = CardHelper.get_sets(hand, 3)
     if Enum.count(sets) == 0 do
       {false, []}
     else

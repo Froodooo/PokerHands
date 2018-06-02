@@ -32,12 +32,20 @@ defmodule PokerHands.Helpers.CardHelper do
     result
   end
 
-  def get_pairs(hand) do
+  def get_sets(hand, set_size) do
     hand_order_indexed = get_hand_order_indexed(hand)
     hand_order_grouped = Enum.group_by(hand_order_indexed, fn(x) -> elem(x, 0) end)
     hand_order_grouped_values = Map.values(hand_order_grouped)
-    pairs = Enum.filter(hand_order_grouped_values, fn(x) -> Enum.count(x) == 2 end)
+    pairs = Enum.filter(hand_order_grouped_values, fn(x) -> Enum.count(x) == set_size end)
     pairs
+  end
+
+  def get_sets_indices(sets) do
+    highest_pair_value = Enum.max(Enum.map(sets, fn(x) -> elem(hd(x), 0) end))
+    sets_list = Enum.filter(sets, fn(x) -> elem(hd(x), 0) == highest_pair_value end)
+    sets_flat = Enum.flat_map(sets_list, fn(x) -> x end)
+    sets_indices = Enum.map(sets_flat, fn(x) -> elem(x, 1) end)
+    sets_indices
   end
 
 end
