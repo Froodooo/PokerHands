@@ -25,4 +25,11 @@ defmodule PokerHands.Helpers.CardHelper do
     hand_order_indexed
   end
 
+  def get_hand_result(hand_with_index, all_highest_orders_indices) do
+    hand_result_with_index = Enum.filter(hand_with_index, fn(x) -> elem(x, 1) in all_highest_orders_indices end)
+    hand_result = Enum.map(hand_result_with_index, fn(x) -> elem(x, 0) end)
+    result = {true, hand_result}
+    result
+  end
+
 end
