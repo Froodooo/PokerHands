@@ -40,6 +40,13 @@ defmodule PokerHands.Helpers.CardHelper do
     pairs
   end
 
+  def get_suit(hand, suit_size) do
+    suits_grouped = Enum.group_by(hand, fn(x) -> elem(x, 1) end)
+    suits_values = Map.values(suits_grouped)
+    suits = Enum.filter(suits_values, fn(x) -> Enum.count(x) == suit_size end)
+    suits
+  end
+
   def get_sets_indices(sets) do
     highest_pair_value = Enum.max(Enum.map(sets, fn(x) -> elem(hd(x), 0) end))
     sets_list = Enum.filter(sets, fn(x) -> elem(hd(x), 0) == highest_pair_value end)
