@@ -1,10 +1,13 @@
 defmodule PokerHands.Rankers.StraightFlushRanker do
   alias PokerHands.Rankers.HandRanker, as: HandRanker
-  #alias PokerHands.Helpers.CardHelper, as: CardHelper
+  alias PokerHands.Rankers.StraightRanker, as: StraightRanker
+  alias PokerHands.Rankers.FlushRanker, as: FlushRanker
   @behaviour HandRanker
   
   def rank(hand) do
-    {true, hand}
+    is_straight = elem(StraightRanker.rank(hand), 0)
+    is_flush = elem(FlushRanker.rank(hand), 0)
+    if (is_straight && is_flush), do: {true, hand}, else: {false, hand}
   end
 
 end
