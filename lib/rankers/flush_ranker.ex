@@ -5,7 +5,7 @@ defmodule PokerHands.Rankers.FlushRanker do
   
   def rank(hand) do
     suits = CardHelper.get_suit(hand, 5)
-    if (Enum.count(suits) == 0), do: {false, []}, else: {true, hand}
+    if (Enum.count(suits) == 1), do: {true, hand}, else: {false, []}
   end
 
 end
