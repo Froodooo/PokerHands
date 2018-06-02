@@ -19,4 +19,10 @@ defmodule PokerHands.Helpers.CardHelper do
     end
   end
 
+  def get_hand_order_indexed(hand) do
+    hand_order = Enum.map(hand, fn(x) -> get_card_value_order(elem(x, 0)) end)
+    hand_order_indexed = Enum.with_index(hand_order)
+    hand_order_indexed
+  end
+
 end
