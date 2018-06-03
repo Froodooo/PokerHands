@@ -16,7 +16,7 @@ defmodule PokerHands.Rankers.ThreeOfAKindRanker do
     end
   end
 
-  def tie(atom, hand) do
-    {:tie, atom, hand}
+  def tie(hand_black, hand_white) do
+    {:tie, hand_black, hand_white}
   end
 end

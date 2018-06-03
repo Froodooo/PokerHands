@@ -16,8 +16,8 @@ defmodule PokerHands.Rankers.TwoPairRanker do
     end
   end
 
-  def tie(atom, hand) do
-    {:tie, atom, hand}
+  def tie(hand_black, hand_white) do
+    {:tie, hand_black, hand_white}
   end
 
   defp get_sets_indices(sets) do

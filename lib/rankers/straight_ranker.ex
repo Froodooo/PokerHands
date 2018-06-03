@@ -12,8 +12,8 @@ defmodule PokerHands.Rankers.StraightRanker do
     if iterations == Enum.count(hand), do: {true, hand}, else: {false, []}
   end
 
-  def tie(atom, hand) do
-    {:tie, atom, hand}
+  def tie(hand_black, hand_white) do
+    {:tie, hand_black, hand_white}
   end
 
   defp is_increasing_list(list, v, n) when tl(list) == [] do

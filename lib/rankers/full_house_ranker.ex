@@ -9,7 +9,7 @@ defmodule PokerHands.Rankers.FullHouseRanker do
     if Enum.count(suits_3) == 1 && Enum.count(suits_2) == 1, do: {true, hand}, else: {false, []}
   end
 
-  def tie(atom, hand) do
-    {:tie, atom, hand}
+  def tie(hand_black, hand_white) do
+    {:tie, hand_black, hand_white}
   end
 end

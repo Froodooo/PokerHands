@@ -8,7 +8,7 @@ defmodule PokerHands.Rankers.FlushRanker do
     if Enum.count(suits) == 1, do: {true, hand}, else: {false, []}
   end
 
-  def tie(atom, hand) do
-    {:tie, atom, hand}
+  def tie(hand_black, hand_white) do
+    {:tie, hand_black, hand_white}
   end
 end
