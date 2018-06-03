@@ -1,6 +1,7 @@
 defmodule PokerHands.Rankers.FlushRanker do
   alias PokerHands.Rankers.HandRanker, as: HandRanker
   alias PokerHands.Helpers.CardHelper, as: CardHelper
+  alias PokerHands.Rankers.HighCardRanker, as: HighCardRanker
   @behaviour HandRanker
 
   def rank(hand) do
@@ -9,6 +10,6 @@ defmodule PokerHands.Rankers.FlushRanker do
   end
 
   def tie(hand_black, hand_white) do
-    {:tie, hand_black, hand_white}
+    HighCardRanker.tie(hand_black, hand_white)
   end
 end
