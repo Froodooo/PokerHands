@@ -26,17 +26,6 @@ defmodule PokerHands.Rankers.SinglePairRanker do
     end
   end
 
-  defp get_highest_value(hand_black, hand_white) do
-    {hand_black_order, hand_white_order} = CardHelper.get_hand_order(hand_black, hand_white)
-    {black_values_ordered, white_values_ordered} = RankerHelper.get_hand_values(hand_black_order, hand_white_order)
-
-    if (RankerHelper.hands_are_equal(black_values_ordered, white_values_ordered)) do
-      :tie
-    else
-      RankerHelper.compare(black_values_ordered, white_values_ordered)
-    end
-  end
-
   defp get_highest_pair(hand_black, hand_white) do
     pair_black = elem(hand_black, 1)
     pair_white = elem(hand_white, 1)
@@ -51,6 +40,17 @@ defmodule PokerHands.Rankers.SinglePairRanker do
       value_black > value_white -> :black
       value_white > value_black -> :white
       true -> :tie
+    end
+  end
+
+  defp get_highest_value(hand_black, hand_white) do
+    {hand_black_order, hand_white_order} = CardHelper.get_hand_order(hand_black, hand_white)
+    {black_values_ordered, white_values_ordered} = RankerHelper.get_hand_values(hand_black_order, hand_white_order)
+
+    if (RankerHelper.hands_are_equal(black_values_ordered, white_values_ordered)) do
+      :tie
+    else
+      RankerHelper.compare(black_values_ordered, white_values_ordered)
     end
   end
 end

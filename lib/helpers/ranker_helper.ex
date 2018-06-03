@@ -39,7 +39,7 @@ defmodule PokerHands.Helpers.RankerHelper do
 
     black_values_ordered = Enum.sort(black_values, &(&1 >= &2))
     white_values_ordered = Enum.sort(white_values, &(&1 >= &2))
-
+    
     {black_values_ordered, white_values_ordered}
   end
 
