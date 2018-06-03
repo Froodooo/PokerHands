@@ -2,6 +2,7 @@ defmodule PokerHands.Rankers.StraightFlushRanker do
   alias PokerHands.Rankers.HandRanker, as: HandRanker
   alias PokerHands.Rankers.StraightRanker, as: StraightRanker
   alias PokerHands.Rankers.FlushRanker, as: FlushRanker
+  alias PokerHands.Rankers.HighCardRanker, as: HighCardRanker
   @behaviour HandRanker
 
   def rank(hand) do
@@ -11,6 +12,6 @@ defmodule PokerHands.Rankers.StraightFlushRanker do
   end
 
   def tie(hand_black, hand_white) do
-    {:tie, hand_black, hand_white}
+    HighCardRanker.tie(hand_black, hand_white)
   end
 end
