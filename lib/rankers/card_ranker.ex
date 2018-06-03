@@ -7,7 +7,7 @@ defmodule PokerHands.Rankers.CardRanker do
   alias PokerHands.Rankers.ThreeOfAKindRanker, as: ThreeOfAKindRanker
   alias PokerHands.Rankers.TwoPairRanker, as: TwoPairRanker
   alias PokerHands.Rankers.SinglePairRanker, as: SinglePairRanker
-  alias PokerHands.Rankers.HighCardRanker, as: HighCardRanker 
+  alias PokerHands.Rankers.HighCardRanker, as: HighCardRanker
 
   def rank(hand) do
     rank = nil
@@ -24,18 +24,17 @@ defmodule PokerHands.Rankers.CardRanker do
   end
 
   defp rank_with_ranker(ranker, rank, hand, rank_atom) do
-    if (rank != nil) do
+    if rank != nil do
       rank
     else
-      rank = if (rank == nil), do: ranker.(hand), else: rank
+      rank = if rank == nil, do: ranker.(hand), else: rank
       is_ranked = is_ranked(rank)
-      rank = if (is_ranked), do: {rank_atom, elem(rank, 1)}, else: nil
+      rank = if is_ranked, do: {rank_atom, elem(rank, 1)}, else: nil
       rank
     end
   end
 
   defp is_ranked(rank) do
-    if (elem(rank, 0)), do: true, else: false
+    if elem(rank, 0), do: true, else: false
   end
-
 end

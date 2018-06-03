@@ -6,5 +6,4 @@ defmodule PokerHands.Test.Rankers.HighardRankerTest do
     hand = [{:"2", :H}, {:"3", :D}, {:"5", :S}, {:"9", :C}, {:K, :D}]
     assert HighCardRanker.rank(hand) == {true, [{:K, :D}]}
   end
-
 end

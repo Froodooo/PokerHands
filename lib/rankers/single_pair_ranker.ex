@@ -5,6 +5,7 @@ defmodule PokerHands.Rankers.SinglePairRanker do
 
   def rank(hand) do
     sets = CardHelper.get_sets(hand, 2)
+
     if Enum.count(sets) == 0 do
       {false, []}
     else

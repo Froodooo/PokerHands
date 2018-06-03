@@ -5,6 +5,7 @@ defmodule PokerHands.Rankers.TwoPairRanker do
 
   def rank(hand) do
     sets = CardHelper.get_sets(hand, 2)
+
     if Enum.count(sets) == 2 do
       sets_indices = get_sets_indices(sets)
       hand_indexed = Enum.with_index(hand)
@@ -16,9 +17,8 @@ defmodule PokerHands.Rankers.TwoPairRanker do
   end
 
   defp get_sets_indices(sets) do
-    sets_flat = Enum.flat_map(sets, fn(x) -> x end)
-    sets_indices = Enum.map(sets_flat, fn(x) -> elem(x, 1) end)
+    sets_flat = Enum.flat_map(sets, fn x -> x end)
+    sets_indices = Enum.map(sets_flat, fn x -> elem(x, 1) end)
     sets_indices
   end
-  
 end

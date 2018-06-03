@@ -5,6 +5,7 @@ defmodule PokerHands.Rankers.ThreeOfAKindRanker do
 
   def rank(hand) do
     sets = CardHelper.get_sets(hand, 3)
+
     if Enum.count(sets) == 0 do
       {false, []}
     else
