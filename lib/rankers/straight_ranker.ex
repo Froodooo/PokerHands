@@ -12,11 +12,15 @@ defmodule PokerHands.Rankers.StraightRanker do
     if iterations == Enum.count(hand), do: {true, hand}, else: {false, []}
   end
 
-  def is_increasing_list(list, v, n) when tl(list) == [] do
+  def tie(atom, hand) do
+    {:tie, atom, hand}
+  end
+
+  defp is_increasing_list(list, v, n) when tl(list) == [] do
     if hd(list) == v, do: n + 1, else: n
   end
 
-  def is_increasing_list(list, v, n) do
+  defp is_increasing_list(list, v, n) do
     n = if hd(list) == v, do: n + 1, else: n
     is_increasing_list(tl(list), v + 1, n)
   end

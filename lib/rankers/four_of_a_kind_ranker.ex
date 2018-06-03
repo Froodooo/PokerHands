@@ -15,4 +15,8 @@ defmodule PokerHands.Rankers.FourOfAKindRanker do
       result
     end
   end
+
+  def tie(atom, hand) do
+    {:tie, atom, hand}
+  end
 end

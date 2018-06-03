@@ -16,6 +16,10 @@ defmodule PokerHands.Rankers.TwoPairRanker do
     end
   end
 
+  def tie(atom, hand) do
+    {:tie, atom, hand}
+  end
+
   defp get_sets_indices(sets) do
     sets_flat = Enum.flat_map(sets, fn x -> x end)
     sets_indices = Enum.map(sets_flat, fn x -> elem(x, 1) end)

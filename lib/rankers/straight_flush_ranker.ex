@@ -9,4 +9,8 @@ defmodule PokerHands.Rankers.StraightFlushRanker do
     is_flush = elem(FlushRanker.rank(hand), 0)
     if is_straight && is_flush, do: {true, hand}, else: {false, hand}
   end
+
+  def tie(atom, hand) do
+    {:tie, atom, hand}
+  end
 end

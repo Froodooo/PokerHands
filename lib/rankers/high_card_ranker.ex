@@ -11,6 +11,10 @@ defmodule PokerHands.Rankers.HighCardRanker do
     result
   end
 
+  def tie(atom, hand) do
+    {:tie, atom, hand}
+  end
+
   defp get_highest_order_indices(hand_order_indexed) do
     highest_order = Enum.max_by(hand_order_indexed, fn x -> elem(x, 0) end)
 
