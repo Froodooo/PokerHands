@@ -13,7 +13,23 @@ defmodule PokerHands.Rankers.StraightRanker do
   end
 
   def tie(hand_black, hand_white) do
-    {:tie, hand_black, hand_white}
+    hand_black_straight = elem(hand_black, 1)
+    hand_white_straight = elem(hand_white, 1)
+
+    hand_black_order = CardHelper.get_hand_order(hand_black_straight)
+    hand_white_order = CardHelper.get_hand_order(hand_white_straight)
+
+    hand_black_order_sorted = Enum.sort(hand_black_order, &(&1 >= &2))
+    hand_white_order_sorted = Enum.sort(hand_white_order, &(&1 >= &2))
+
+    value_black = Enum.at(hand_black_order_sorted, 0)
+    value_white = Enum.at(hand_white_order_sorted, 0)
+
+    cond do
+      value_black > value_white -> :black
+      value_white > value_black -> :white
+      true -> :tie
+    end
   end
 
   defp is_increasing_list(list, v, n) when tl(list) == [] do
