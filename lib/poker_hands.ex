@@ -15,7 +15,6 @@ defmodule PokerHands do
 
     highest_rank = RankerHelper.get_highest_rank(black_hand_rank, white_hand_rank)
 
-    # TODO: If :tie, call method in specific ranker to solve the tie
     highest_rank = if (highest_rank == :tie) do
       tied_rank = elem(black_hand_rank, 0)
       rank_tie_function = RankerHelper.get_rank_tie_function(tied_rank)
@@ -24,7 +23,6 @@ defmodule PokerHands do
       highest_rank
     end
 
-    # TODO: Print the result
     highest_rank
   end
 end

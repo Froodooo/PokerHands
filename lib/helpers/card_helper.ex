@@ -37,6 +37,16 @@ defmodule PokerHands.Helpers.CardHelper do
     sets_indices
   end
 
+  def get_hand_order(hand_black, hand_white) do
+    hand_black_compare = elem(hand_black, 0)
+    hand_white_compare = elem(hand_white, 0)
+
+    hand_black_order = get_hand_order_indexed(hand_black_compare)
+    hand_white_order = get_hand_order_indexed(hand_white_compare)
+
+    {hand_black_order, hand_white_order}
+  end
+
   defp get_card_value_order(atom) do
     case atom do
       :"1" -> 1
