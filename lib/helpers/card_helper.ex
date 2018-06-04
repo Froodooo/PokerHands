@@ -5,16 +5,15 @@ defmodule PokerHands.Helpers.CardHelper do
   end
 
   def get_card_values_indexed(hand) do
-    card_values = get_card_values(hand)
-    card_values_indexed = Enum.with_index(card_values)
-    card_values_indexed
+    card_values = get_card_values(hand) |> Enum.with_index()
+    card_values
   end
 
   def get_hand_result(hand_with_index, all_highest_orders_indices) do
-    hand_result_with_index =
+    hand_result =
       Enum.filter(hand_with_index, fn x -> elem(x, 1) in all_highest_orders_indices end)
+      |> Enum.map(fn x -> elem(x, 0) end)
 
-    hand_result = Enum.map(hand_result_with_index, fn x -> elem(x, 0) end)
     result = {true, hand_result}
     result
   end
@@ -30,9 +29,11 @@ defmodule PokerHands.Helpers.CardHelper do
   end
 
   def get_suit(hand, suit_size) do
-    suits_grouped = Enum.group_by(hand, fn x -> elem(x, 1) end)
-    suits_values = Map.values(suits_grouped)
-    suits = Enum.filter(suits_values, fn x -> Enum.count(x) == suit_size end)
+    suits =
+      Enum.group_by(hand, fn x -> elem(x, 1) end)
+      |> Map.values()
+      |> Enum.filter(fn x -> Enum.count(x) == suit_size end)
+
     suits
   end
 
