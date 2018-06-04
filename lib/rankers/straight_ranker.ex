@@ -4,7 +4,7 @@ defmodule PokerHands.Rankers.StraightRanker do
   @behaviour HandRanker
 
   def rank(hand) do
-    card_values = CardHelper.get_card_values(hand)
+    card_values = CardHelper.get_card_values_indexed(hand)
     hand_values = Enum.map(card_values, fn x -> elem(x, 0) end)
     hand_values_ordered = Enum.sort(hand_values)
 
@@ -16,14 +16,14 @@ defmodule PokerHands.Rankers.StraightRanker do
     hand_black_straight = elem(hand_black, 1)
     hand_white_straight = elem(hand_white, 1)
 
-    hand_black_order = CardHelper.get_hand_order(hand_black_straight)
-    hand_white_order = CardHelper.get_hand_order(hand_white_straight)
+    black_card_values = CardHelper.get_card_values(hand_black_straight)
+    white_card_values = CardHelper.get_card_values(hand_white_straight)
 
-    hand_black_order_sorted = Enum.sort(hand_black_order, &(&1 >= &2))
-    hand_white_order_sorted = Enum.sort(hand_white_order, &(&1 >= &2))
+    black_card_values_sorted = Enum.sort(black_card_values, &(&1 >= &2))
+    white_card_values_sorted = Enum.sort(white_card_values, &(&1 >= &2))
 
-    value_black = Enum.at(hand_black_order_sorted, 0)
-    value_white = Enum.at(hand_white_order_sorted, 0)
+    value_black = Enum.at(black_card_values_sorted, 0)
+    value_white = Enum.at(white_card_values_sorted, 0)
 
     cond do
       value_black > value_white -> :black

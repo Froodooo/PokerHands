@@ -20,8 +20,8 @@ defmodule PokerHands.Rankers.ThreeOfAKindRanker do
     pair_black = elem(hand_black, 1)
     pair_white = elem(hand_white, 1)
 
-    black_card_values = CardHelper.get_card_values(pair_black)
-    white_card_values = CardHelper.get_card_values(pair_white)
+    black_card_values = CardHelper.get_card_values_indexed(pair_black)
+    white_card_values = CardHelper.get_card_values_indexed(pair_white)
 
     value_black = elem(Enum.at(black_card_values, 0), 0)
     value_white = elem(Enum.at(white_card_values, 0), 0)

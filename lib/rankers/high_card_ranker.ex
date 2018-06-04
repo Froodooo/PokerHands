@@ -5,7 +5,7 @@ defmodule PokerHands.Rankers.HighCardRanker do
   @behaviour HandRanker
 
   def rank(hand) do
-    card_values = CardHelper.get_card_values(hand)
+    card_values = CardHelper.get_card_values_indexed(hand)
     all_highest_orders_indices = get_highest_order_indices(card_values)
     hand_indexed = Enum.with_index(hand)
     result = CardHelper.get_hand_result(hand_indexed, all_highest_orders_indices)

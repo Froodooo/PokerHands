@@ -29,19 +29,19 @@ defmodule PokerHands.Rankers.TwoPairRanker do
   end
 
   def get_highest_pair(hand_black, hand_white) do    
-    hand_black_pairs_values = CardHelper.get_hand_order(hand_black)
-    hand_white_pairs_values = CardHelper.get_hand_order(hand_white)
+    black_card_values = CardHelper.get_card_values(hand_black)
+    white_card_values = CardHelper.get_card_values(hand_white)
 
-    hand_black_pairs_values_ordered = Enum.sort(hand_black_pairs_values, &(&1 >= &2))
-    hand_white_pairs_values_ordered = Enum.sort(hand_white_pairs_values, &(&1 >= &2))
+    black_card_values_sorted = Enum.sort(black_card_values, &(&1 >= &2))
+    white_card_values_sorted = Enum.sort(white_card_values, &(&1 >= &2))
 
-    hand_black_pairs_values_ordered_dedupped = Enum.dedup(hand_black_pairs_values_ordered)
-    hand_white_pairs_values_ordered_dedupped = Enum.dedup(hand_white_pairs_values_ordered)
+    black_card_values_sorted_dedupped = Enum.dedup(black_card_values_sorted)
+    white_card_values_sorted_dedupped = Enum.dedup(white_card_values_sorted)
 
-    if (RankerHelper.hands_are_equal(hand_black_pairs_values_ordered_dedupped, hand_white_pairs_values_ordered_dedupped)) do
+    if (RankerHelper.hands_are_equal(black_card_values_sorted_dedupped, white_card_values_sorted_dedupped)) do
       :tie
     else
-      RankerHelper.compare(hand_black_pairs_values_ordered_dedupped, hand_white_pairs_values_ordered_dedupped)
+      RankerHelper.compare(black_card_values_sorted_dedupped, white_card_values_sorted_dedupped)
     end
   end
 

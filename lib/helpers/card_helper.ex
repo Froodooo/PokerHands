@@ -1,13 +1,13 @@
 defmodule PokerHands.Helpers.CardHelper do
-  def get_hand_order(hand) do
-    hand_order = Enum.map(hand, fn x -> get_card_value_order(elem(x, 0)) end)    
-    hand_order
+  def get_card_values(hand) do
+    card_values = Enum.map(hand, fn x -> get_card_value_order(elem(x, 0)) end)    
+    card_values
   end
 
-  def get_card_values(hand) do
-    hand_order = get_hand_order(hand)
-    hand_order_indexed = Enum.with_index(hand_order)
-    hand_order_indexed
+  def get_card_values_indexed(hand) do
+    card_values = get_card_values(hand)
+    card_values_indexed = Enum.with_index(card_values)
+    card_values_indexed
   end
 
   def get_hand_result(hand_with_index, all_highest_orders_indices) do
@@ -20,7 +20,7 @@ defmodule PokerHands.Helpers.CardHelper do
   end
 
   def get_sets(hand, set_size) do
-    hand_order_indexed = get_card_values(hand)
+    hand_order_indexed = get_card_values_indexed(hand)
     hand_order_grouped = Enum.group_by(hand_order_indexed, fn x -> elem(x, 0) end)
     hand_order_grouped_values = Map.values(hand_order_grouped)
     pairs = Enum.filter(hand_order_grouped_values, fn x -> Enum.count(x) == set_size end)
@@ -46,8 +46,8 @@ defmodule PokerHands.Helpers.CardHelper do
     hand_black_compare = elem(hand_black, 0)
     hand_white_compare = elem(hand_white, 0)
 
-    black_card_values = get_card_values(hand_black_compare)
-    white_card_values = get_card_values(hand_white_compare)
+    black_card_values = get_card_values_indexed(hand_black_compare)
+    white_card_values = get_card_values_indexed(hand_white_compare)
 
     {black_card_values, white_card_values}
   end
