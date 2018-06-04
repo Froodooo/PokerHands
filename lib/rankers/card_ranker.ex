@@ -12,25 +12,30 @@ defmodule PokerHands.Rankers.CardRanker do
   def rank(hand) do
     rank =
       nil
-      |> rank_with_ranker(&StraightFlushRanker.rank/1, hand, :straight_flush)
-      |> rank_with_ranker(&FourOfAKindRanker.rank/1, hand, :four_of_a_kind)
-      |> rank_with_ranker(&FullHouseRanker.rank/1, hand, :full_house)
-      |> rank_with_ranker(&FlushRanker.rank/1, hand, :flush)
-      |> rank_with_ranker(&StraightRanker.rank/1, hand, :straight)
-      |> rank_with_ranker(&ThreeOfAKindRanker.rank/1, hand, :three_of_a_kind)
-      |> rank_with_ranker(&TwoPairRanker.rank/1, hand, :two_pair)
-      |> rank_with_ranker(&SinglePairRanker.rank/1, hand, :single_pair)
-      |> rank_with_ranker(&HighCardRanker.rank/1, hand, :high_card)
+      |> rank(&StraightFlushRanker.rank/1, hand, :straight_flush)
+      |> rank(&FourOfAKindRanker.rank/1, hand, :four_of_a_kind)
+      |> rank(&FullHouseRanker.rank/1, hand, :full_house)
+      |> rank(&FlushRanker.rank/1, hand, :flush)
+      |> rank(&StraightRanker.rank/1, hand, :straight)
+      |> rank(&ThreeOfAKindRanker.rank/1, hand, :three_of_a_kind)
+      |> rank(&TwoPairRanker.rank/1, hand, :two_pair)
+      |> rank(&SinglePairRanker.rank/1, hand, :single_pair)
+      |> rank(&HighCardRanker.rank/1, hand, :high_card)
 
     rank
   end
 
-  defp rank_with_ranker(rank, ranker, hand, rank_atom) do
+  defp rank(rank, rank_function, hand, rank_atom) do
     rank =
       unless rank != nil do
-        rank = if rank == nil, do: ranker.(hand), else: rank
+        rank = rank_function.(hand)
         is_ranked = is_ranked(rank)
-        rank = if is_ranked, do: {rank_atom, elem(rank, 1)}, else: nil
+
+        rank =
+          if is_ranked,
+            do: {rank_atom, elem(rank, 1)},
+            else: nil
+
         rank
       end
 
@@ -38,6 +43,11 @@ defmodule PokerHands.Rankers.CardRanker do
   end
 
   defp is_ranked(rank) do
-    if elem(rank, 0), do: true, else: false
+    is_ranked =
+      if elem(rank, 0),
+        do: true,
+        else: false
+
+    is_ranked
   end
 end
