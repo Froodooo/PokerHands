@@ -7,14 +7,17 @@ defmodule PokerHands.Rankers.SinglePairRanker do
   def rank(hand) do
     sets = CardHelper.get_sets(hand, 2)
 
-    if Enum.count(sets) == 0 do
-      {false, []}
-    else
-      sets_indices = CardHelper.get_sets_indices(sets)
-      hand_indexed = Enum.with_index(hand)
-      result = CardHelper.get_hand_result(hand_indexed, sets_indices)
-      result
-    end
+    result =
+      if Enum.count(sets) == 0 do
+        {false, []}
+      else
+        sets_indices = CardHelper.get_sets_indices(sets)
+
+        Enum.with_index(hand)
+        |> CardHelper.get_hand_result(sets_indices)
+      end
+
+    result
   end
 
   def tie(hand_black, hand_white) do
@@ -27,18 +30,18 @@ defmodule PokerHands.Rankers.SinglePairRanker do
   end
 
   defp get_highest_pair(hand_black, hand_white) do
-    pair_black = elem(hand_black, 1)
-    pair_white = elem(hand_white, 1)
+    {pair_black, pair_white} = {elem(hand_black, 1), elem(hand_white, 1)}
 
-    black_card_values = CardHelper.get_card_values_indexed(pair_black)
-    white_card_values = CardHelper.get_card_values_indexed(pair_white)
+    {black_card_values, white_card_values} =
+      {CardHelper.get_card_values_indexed(pair_black),
+       CardHelper.get_card_values_indexed(pair_white)}
 
-    value_black = elem(Enum.at(black_card_values, 0), 0)
-    value_white = elem(Enum.at(white_card_values, 0), 0)
+    {card_value_black, card_value_white} =
+      {elem(Enum.at(black_card_values, 0), 0), elem(Enum.at(white_card_values, 0), 0)}
 
     cond do
-      value_black > value_white -> :black
-      value_white > value_black -> :white
+      card_value_black > card_value_white -> :black
+      card_value_white > card_value_black -> :white
       true -> :tie
     end
   end

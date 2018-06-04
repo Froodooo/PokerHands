@@ -20,11 +20,13 @@ defmodule PokerHands.Helpers.CardHelper do
   end
 
   def get_sets(hand, set_size) do
-    hand_order_indexed = get_card_values_indexed(hand)
-    hand_order_grouped = Enum.group_by(hand_order_indexed, fn x -> elem(x, 0) end)
-    hand_order_grouped_values = Map.values(hand_order_grouped)
-    pairs = Enum.filter(hand_order_grouped_values, fn x -> Enum.count(x) == set_size end)
-    pairs
+    sets =
+      get_card_values_indexed(hand)
+      |> Enum.group_by(fn x -> elem(x, 0) end)
+      |> Map.values()
+      |> Enum.filter(fn x -> Enum.count(x) == set_size end)
+
+    sets
   end
 
   def get_suit(hand, suit_size) do
@@ -35,19 +37,21 @@ defmodule PokerHands.Helpers.CardHelper do
   end
 
   def get_sets_indices(sets) do
-    highest_pair_value = Enum.max(Enum.map(sets, fn x -> elem(hd(x), 0) end))
-    sets_list = Enum.filter(sets, fn x -> elem(hd(x), 0) == highest_pair_value end)
-    sets_flat = Enum.flat_map(sets_list, fn x -> x end)
-    sets_indices = Enum.map(sets_flat, fn x -> elem(x, 1) end)
+    highest_card_value = Enum.max(Enum.map(sets, fn x -> elem(hd(x), 0) end))
+
+    sets_indices =
+      Enum.filter(sets, fn x -> elem(hd(x), 0) == highest_card_value end)
+      |> Enum.flat_map(fn x -> x end)
+      |> Enum.map(fn x -> elem(x, 1) end)
+
     sets_indices
   end
 
   def get_card_values(hand_black, hand_white) do
-    hand_black_compare = elem(hand_black, 0)
-    hand_white_compare = elem(hand_white, 0)
+    {hand_black_compare, hand_white_compare} = {elem(hand_black, 0), elem(hand_white, 0)}
 
-    black_card_values = get_card_values_indexed(hand_black_compare)
-    white_card_values = get_card_values_indexed(hand_white_compare)
+    {black_card_values, white_card_values} =
+      {get_card_values_indexed(hand_black_compare), get_card_values_indexed(hand_white_compare)}
 
     {black_card_values, white_card_values}
   end
