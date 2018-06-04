@@ -4,8 +4,8 @@ defmodule PokerHands.Rankers.StraightRanker do
   @behaviour HandRanker
 
   def rank(hand) do
-    hand_order_indexed = CardHelper.get_hand_order_indexed(hand)
-    hand_values = Enum.map(hand_order_indexed, fn x -> elem(x, 0) end)
+    card_values = CardHelper.get_card_values(hand)
+    hand_values = Enum.map(card_values, fn x -> elem(x, 0) end)
     hand_values_ordered = Enum.sort(hand_values)
 
     iterations = is_increasing_list(hand_values_ordered, hd(hand_values_ordered), 0)

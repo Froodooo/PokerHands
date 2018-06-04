@@ -4,7 +4,7 @@ defmodule PokerHands.Helpers.CardHelper do
     hand_order
   end
 
-  def get_hand_order_indexed(hand) do
+  def get_card_values(hand) do
     hand_order = get_hand_order(hand)
     hand_order_indexed = Enum.with_index(hand_order)
     hand_order_indexed
@@ -20,7 +20,7 @@ defmodule PokerHands.Helpers.CardHelper do
   end
 
   def get_sets(hand, set_size) do
-    hand_order_indexed = get_hand_order_indexed(hand)
+    hand_order_indexed = get_card_values(hand)
     hand_order_grouped = Enum.group_by(hand_order_indexed, fn x -> elem(x, 0) end)
     hand_order_grouped_values = Map.values(hand_order_grouped)
     pairs = Enum.filter(hand_order_grouped_values, fn x -> Enum.count(x) == set_size end)
@@ -46,10 +46,10 @@ defmodule PokerHands.Helpers.CardHelper do
     hand_black_compare = elem(hand_black, 0)
     hand_white_compare = elem(hand_white, 0)
 
-    hand_black_order = get_hand_order_indexed(hand_black_compare)
-    hand_white_order = get_hand_order_indexed(hand_white_compare)
+    black_card_values = get_card_values(hand_black_compare)
+    white_card_values = get_card_values(hand_white_compare)
 
-    {hand_black_order, hand_white_order}
+    {black_card_values, white_card_values}
   end
 
   defp get_card_value_order(atom) do

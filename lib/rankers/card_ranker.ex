@@ -11,27 +11,27 @@ defmodule PokerHands.Rankers.CardRanker do
 
   def rank(hand) do
     rank = nil
-    rank = rank_with_ranker(&StraightFlushRanker.rank/1, rank, hand, :straight_flush)
-    rank = rank_with_ranker(&FourOfAKindRanker.rank/1, rank, hand, :four_of_a_kind)
-    rank = rank_with_ranker(&FullHouseRanker.rank/1, rank, hand, :full_house)
-    rank = rank_with_ranker(&FlushRanker.rank/1, rank, hand, :flush)
-    rank = rank_with_ranker(&StraightRanker.rank/1, rank, hand, :straight)
-    rank = rank_with_ranker(&ThreeOfAKindRanker.rank/1, rank, hand, :three_of_a_kind)
-    rank = rank_with_ranker(&TwoPairRanker.rank/1, rank, hand, :two_pair)
-    rank = rank_with_ranker(&SinglePairRanker.rank/1, rank, hand, :single_pair)
-    rank = rank_with_ranker(&HighCardRanker.rank/1, rank, hand, :high_card)
+    |> rank_with_ranker(&StraightFlushRanker.rank/1, hand, :straight_flush)
+    |> rank_with_ranker(&FourOfAKindRanker.rank/1, hand, :four_of_a_kind)
+    |> rank_with_ranker(&FullHouseRanker.rank/1, hand, :full_house)
+    |> rank_with_ranker(&FlushRanker.rank/1, hand, :flush)
+    |> rank_with_ranker(&StraightRanker.rank/1, hand, :straight)
+    |> rank_with_ranker(&ThreeOfAKindRanker.rank/1, hand, :three_of_a_kind)
+    |> rank_with_ranker(&TwoPairRanker.rank/1, hand, :two_pair)
+    |> rank_with_ranker(&SinglePairRanker.rank/1, hand, :single_pair)
+    |> rank_with_ranker(&HighCardRanker.rank/1, hand, :high_card)
     rank
   end
 
-  defp rank_with_ranker(ranker, rank, hand, rank_atom) do
-    if rank != nil do
-      rank
-    else
+  defp rank_with_ranker(rank, ranker, hand, rank_atom) do
+    rank = unless rank != nil do
       rank = if rank == nil, do: ranker.(hand), else: rank
       is_ranked = is_ranked(rank)
       rank = if is_ranked, do: {rank_atom, elem(rank, 1)}, else: nil
       rank
     end
+
+    rank
   end
 
   defp is_ranked(rank) do
