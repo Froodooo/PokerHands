@@ -6,10 +6,17 @@ defmodule PokerHands.Rankers.FlushRanker do
 
   def rank(hand) do
     suits = CardHelper.get_suit(hand, 5)
-    if Enum.count(suits) == 1, do: {true, hand}, else: {false, []}
+
+    rank =
+      if Enum.count(suits) == 1,
+        do: {true, hand},
+        else: {false, []}
+
+    rank
   end
 
   def tie(hand_black, hand_white) do
-    HighCardRanker.tie(hand_black, hand_white)
+    winner = HighCardRanker.tie(hand_black, hand_white)
+    winner
   end
 end
