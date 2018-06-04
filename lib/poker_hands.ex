@@ -2,7 +2,7 @@ defmodule PokerHands do
   alias PokerHands.ConsoleReader, as: ConsoleReader
   alias PokerHands.HandParser, as: HandParser
   alias PokerHands.Rankers.CardRanker, as: CardRanker
-  alias PokerHands.Helpers.RankerHelper, as: RankerHelper
+  alias PokerHands.Helpers.RankProvider, as: RankProvider
 
   def run do
     {black_hand, white_hand} = ConsoleReader.read()
@@ -13,12 +13,12 @@ defmodule PokerHands do
     {black_hand_rank, white_hand_rank} =
       {CardRanker.rank(black_hand_parsed), CardRanker.rank(white_hand_parsed)}
 
-    highest_rank = RankerHelper.get_highest_rank(black_hand_rank, white_hand_rank)
+    highest_rank = RankProvider.get_highest_rank(black_hand_rank, white_hand_rank)
 
     highest_rank =
       unless highest_rank != :tie do
         tied_rank = elem(black_hand_rank, 0)
-        rank_tie_function = RankerHelper.get_rank_tie_function(tied_rank)
+        rank_tie_function = RankProvider.get_rank_tie_function(tied_rank)
 
         rank_tie_function.(
           {black_hand_parsed, elem(black_hand_rank, 1)},

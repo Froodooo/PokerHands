@@ -1,11 +1,14 @@
 defmodule PokerHands.Rankers.StraightRanker do
   alias PokerHands.Rankers.HandRanker, as: HandRanker
   alias PokerHands.Helpers.CardHelper, as: CardHelper
+  alias PokerHands.Helpers.CardValueProvider, as: CardValueProvider
   @behaviour HandRanker
 
   def rank(hand) do
     card_values =
-      CardHelper.get_card_values_indexed(hand) |> Enum.map(fn x -> elem(x, 0) end) |> Enum.sort()
+      CardValueProvider.get_card_values_indexed(hand)
+      |> Enum.map(fn x -> elem(x, 0) end)
+      |> Enum.sort()
 
     is_increasing_list = is_increasing_list(card_values, hd(card_values), 0)
 
@@ -21,8 +24,8 @@ defmodule PokerHands.Rankers.StraightRanker do
     {hand_black_straight, hand_white_straight} = {elem(hand_black, 1), elem(hand_white, 1)}
 
     {black_card_values, white_card_values} =
-      {CardHelper.get_card_values(hand_black_straight),
-       CardHelper.get_card_values(hand_white_straight)}
+      {CardValueProvider.get_card_values(hand_black_straight),
+       CardValueProvider.get_card_values(hand_white_straight)}
 
     {black_card_values_sorted, white_card_values_sorted} =
       {Enum.sort(black_card_values, &(&1 >= &2)), Enum.sort(white_card_values, &(&1 >= &2))}

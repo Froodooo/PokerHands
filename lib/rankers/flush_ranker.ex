@@ -1,11 +1,11 @@
 defmodule PokerHands.Rankers.FlushRanker do
   alias PokerHands.Rankers.HandRanker, as: HandRanker
-  alias PokerHands.Helpers.CardHelper, as: CardHelper
   alias PokerHands.Rankers.HighCardRanker, as: HighCardRanker
+  alias PokerHands.Helpers.SuitProvider, as: SuitProvider
   @behaviour HandRanker
 
   def rank(hand) do
-    suits = CardHelper.get_suit(hand, 5)
+    suits = SuitProvider.get_suit(hand, 5)
 
     rank =
       if Enum.count(suits) == 1,

@@ -1,18 +1,19 @@
 defmodule PokerHands.Rankers.FourOfAKindRanker do
   alias PokerHands.Rankers.HandRanker, as: HandRanker
-  alias PokerHands.Helpers.CardHelper, as: CardHelper
+  alias PokerHands.Helpers.CardValueProvider, as: CardValueProvider
+  alias PokerHands.Helpers.SetProvider, as: SetProvider
   @behaviour HandRanker
 
   def rank(hand) do
-    sets = CardHelper.get_sets(hand, 4)
+    sets = SetProvider.get_sets(hand, 4)
 
     rank =
       if Enum.count(sets) == 0 do
         {false, []}
       else
-        sets_indices = CardHelper.get_sets_indices(sets)
+        sets_indices = SetProvider.get_sets_indices(sets)
         hand_indexed = Enum.with_index(hand)
-        result = CardHelper.get_hand_result(hand_indexed, sets_indices)
+        result = CardValueProvider.get_hand_result(hand_indexed, sets_indices)
         result
       end
 
@@ -23,8 +24,8 @@ defmodule PokerHands.Rankers.FourOfAKindRanker do
     {pair_black, pair_white} = {elem(hand_black, 1), elem(hand_white, 1)}
 
     {black_card_values, white_card_values} =
-      {CardHelper.get_card_values_indexed(pair_black),
-       CardHelper.get_card_values_indexed(pair_white)}
+      {CardValueProvider.get_card_values_indexed(pair_black),
+       CardValueProvider.get_card_values_indexed(pair_white)}
 
     {value_black, value_white} =
       {elem(Enum.at(black_card_values, 0), 0), elem(Enum.at(white_card_values, 0), 0)}
