@@ -19,7 +19,7 @@ defmodule PokerHands.Rankers.FourOfAKindRanker do
   def tie(hand_black, hand_white) do
     pair_black = elem(hand_black, 1)
     pair_white = elem(hand_white, 1)
-    
+
     black_card_values = CardHelper.get_card_values_indexed(pair_black)
     white_card_values = CardHelper.get_card_values_indexed(pair_white)
 

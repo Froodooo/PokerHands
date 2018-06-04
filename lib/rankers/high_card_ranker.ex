@@ -5,31 +5,39 @@ defmodule PokerHands.Rankers.HighCardRanker do
   @behaviour HandRanker
 
   def rank(hand) do
-    card_values = CardHelper.get_card_values_indexed(hand)
-    all_highest_orders_indices = get_highest_order_indices(card_values)
-    hand_indexed = Enum.with_index(hand)
-    result = CardHelper.get_hand_result(hand_indexed, all_highest_orders_indices)
+    highest_card_values =
+      CardHelper.get_card_values_indexed(hand)
+      |> get_highest_card_values()
+
+    result =
+      Enum.with_index(hand)
+      |> CardHelper.get_hand_result(highest_card_values)
+
     result
   end
 
   def tie(hand_black, hand_white) do
-    {hand_black_order, hand_white_order} = CardHelper.get_hand_order(hand_black, hand_white)
-    {black_values_ordered, white_values_ordered} = RankerHelper.get_hand_values(hand_black_order, hand_white_order)
+    {black_card_values, white_card_values} = CardHelper.get_card_values(hand_black, hand_white)
 
-    if (RankerHelper.hands_are_equal(black_values_ordered, white_values_ordered)) do
-      :tie
-    else
-      RankerHelper.compare(black_values_ordered, white_values_ordered)
-    end
+    {black_card_values_ordered, white_card_values_ordered} =
+      RankerHelper.get_hand_values(black_card_values, white_card_values)
+
+    result =
+      if RankerHelper.hands_are_equal(black_card_values_ordered, white_card_values_ordered),
+        do: :tie,
+        else:
+          RankerHelper.compare_card_values(black_card_values_ordered, white_card_values_ordered)
+
+    result
   end
 
-  defp get_highest_order_indices(hand_order_indexed) do
-    highest_order = Enum.max_by(hand_order_indexed, fn x -> elem(x, 0) end)
+  defp get_highest_card_values(card_values) do
+    highest_card_value = Enum.max_by(card_values, fn x -> elem(x, 0) end)
 
-    all_highest_orders =
-      Enum.filter(hand_order_indexed, fn x -> elem(x, 0) == elem(highest_order, 0) end)
+    all_highest_card_values =
+      Enum.filter(card_values, fn x -> elem(x, 0) == elem(highest_card_value, 0) end)
+      |> Enum.map(fn x -> elem(x, 1) end)
 
-    all_highest_orders_indices = Enum.map(all_highest_orders, fn x -> elem(x, 1) end)
-    all_highest_orders_indices
+    all_highest_card_values
   end
 end

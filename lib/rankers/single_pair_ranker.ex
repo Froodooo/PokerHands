@@ -44,13 +44,15 @@ defmodule PokerHands.Rankers.SinglePairRanker do
   end
 
   defp get_highest_value(hand_black, hand_white) do
-    {hand_black_order, hand_white_order} = CardHelper.get_hand_order(hand_black, hand_white)
-    {black_values_ordered, white_values_ordered} = RankerHelper.get_hand_values(hand_black_order, hand_white_order)
+    {black_card_values, white_card_values} = CardHelper.get_card_values(hand_black, hand_white)
 
-    if (RankerHelper.hands_are_equal(black_values_ordered, white_values_ordered)) do
+    {black_card_values_ordered, white_card_values_ordered} =
+      RankerHelper.get_hand_values(black_card_values, white_card_values)
+
+    if RankerHelper.hands_are_equal(black_card_values_ordered, white_card_values_ordered) do
       :tie
     else
-      RankerHelper.compare(black_values_ordered, white_values_ordered)
+      RankerHelper.compare_card_values(black_card_values_ordered, white_card_values_ordered)
     end
   end
 end

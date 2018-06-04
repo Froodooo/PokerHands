@@ -1,6 +1,6 @@
 defmodule PokerHands.Helpers.CardHelper do
   def get_card_values(hand) do
-    card_values = Enum.map(hand, fn x -> get_card_value_order(elem(x, 0)) end)    
+    card_values = Enum.map(hand, fn x -> get_card_value_order(elem(x, 0)) end)
     card_values
   end
 
@@ -42,7 +42,7 @@ defmodule PokerHands.Helpers.CardHelper do
     sets_indices
   end
 
-  def get_hand_order(hand_black, hand_white) do
+  def get_card_values(hand_black, hand_white) do
     hand_black_compare = elem(hand_black, 0)
     hand_white_compare = elem(hand_white, 0)
 
