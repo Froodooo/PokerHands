@@ -9,10 +9,13 @@ defmodule PokerHands.Helpers.HandComparer do
     head_black = hd(hand_black)
     head_white = hd(hand_white)
 
-    cond do
-      head_black > head_white -> :black
-      head_white > head_black -> :white
-      true -> compare_card_values(tl(hand_black), tl(hand_white))
-    end
+    winner =
+      cond do
+        head_black > head_white -> :black
+        head_white > head_black -> :white
+        true -> compare_card_values(tl(hand_black), tl(hand_white))
+      end
+
+    winner
   end
 end
