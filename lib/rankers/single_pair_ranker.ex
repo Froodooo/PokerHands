@@ -31,13 +31,8 @@ defmodule PokerHands.Rankers.SinglePairRanker do
   end
 
   defp get_highest_pair(hand_black, hand_white) do
-    black_card_values =
-      elem(hand_black, 1)
-      |> CardValueProvider.get_card_values_indexed()
-
-    white_card_values =
-      elem(hand_white, 1)
-      |> CardValueProvider.get_card_values_indexed()
+    black_card_values = CardValueProvider.get_card_values_indexed(elem(hand_black, 1))
+    white_card_values = CardValueProvider.get_card_values_indexed(elem(hand_white, 1))
 
     card_value_black = elem(Enum.at(black_card_values, 0), 0)
     card_value_white = elem(Enum.at(white_card_values, 0), 0)
