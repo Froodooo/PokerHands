@@ -5,7 +5,7 @@ defmodule PokerHands.Rankers.ThreeOfAKindRanker do
   @behaviour HandRanker
 
   def rank(hand) do
-    sets = SetProvider.get_sets(hand, 3)
+    sets = SetProvider.get_card_sets(hand, 3)
 
     rank =
       if Enum.count(sets) == 0,
@@ -21,7 +21,7 @@ defmodule PokerHands.Rankers.ThreeOfAKindRanker do
   end
 
   defp get_three_of_a_kind_hand_result(sets, hand) do
-    sets_indices = SetProvider.get_sets_indices(sets)
+    sets_indices = SetProvider.get_card_sets_indices(sets)
     hand_indexed = Enum.with_index(hand)
     CardValueProvider.get_cards_with_highest_order(hand_indexed, sets_indices)
   end

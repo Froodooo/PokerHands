@@ -6,13 +6,13 @@ defmodule PokerHands.Rankers.SinglePairRanker do
   @behaviour HandRanker
 
   def rank(hand) do
-    sets = SetProvider.get_sets(hand, 2)
+    sets = SetProvider.get_card_sets(hand, 2)
 
     result =
       if Enum.count(sets) == 0 do
         {false, []}
       else
-        sets_indices = SetProvider.get_sets_indices(sets)
+        sets_indices = SetProvider.get_card_sets_indices(sets)
 
         Enum.with_index(hand)
         |> CardValueProvider.get_cards_with_highest_order(sets_indices)
