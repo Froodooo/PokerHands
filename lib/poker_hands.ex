@@ -15,16 +15,17 @@ defmodule PokerHands do
 
     highest_rank = RankProvider.get_highest_rank(black_hand_rank, white_hand_rank)
 
-    highest_rank =
-      unless highest_rank != :tie do
-        tied_rank = elem(black_hand_rank, 0)
-        rank_tie_function = RankProvider.get_rank_tie_function(tied_rank)
+    if highest_rank == :tie do
+      tied_rank = elem(black_hand_rank, 0)
+      rank_tie_function = RankProvider.get_rank_tie_function(tied_rank)
 
-        rank_tie_function.(
-          {black_hand_parsed, elem(black_hand_rank, 1)},
-          {white_hand_parsed, elem(white_hand_rank, 1)}
-        )
-      end
+      rank_tie_function.(
+        {black_hand_parsed, elem(black_hand_rank, 1)},
+        {white_hand_parsed, elem(white_hand_rank, 1)}
+      )
+    else
+      highest_rank
+    end
 
     highest_rank
   end
