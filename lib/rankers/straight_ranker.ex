@@ -1,6 +1,5 @@
 defmodule PokerHands.Rankers.StraightRanker do
   alias PokerHands.Rankers.HandRanker, as: HandRanker
-  alias PokerHands.Helpers.CardHelper, as: CardHelper
   alias PokerHands.Helpers.CardValueProvider, as: CardValueProvider
   @behaviour HandRanker
 
@@ -21,17 +20,16 @@ defmodule PokerHands.Rankers.StraightRanker do
   end
 
   def tie(hand_black, hand_white) do
-    {hand_black_straight, hand_white_straight} = {elem(hand_black, 1), elem(hand_white, 1)}
+    black_card_values = CardValueProvider.get_card_values(elem(hand_black, 1))
+    white_card_values = CardValueProvider.get_card_values(elem(hand_white, 1))
 
-    {black_card_values, white_card_values} =
-      {CardValueProvider.get_card_values(hand_black_straight),
-       CardValueProvider.get_card_values(hand_white_straight)}
+    value_black =
+      Enum.sort(black_card_values, &(&1 >= &2))
+      |> Enum.at(0)
 
-    {black_card_values_sorted, white_card_values_sorted} =
-      {Enum.sort(black_card_values, &(&1 >= &2)), Enum.sort(white_card_values, &(&1 >= &2))}
-
-    {value_black, value_white} =
-      {Enum.at(black_card_values_sorted, 0), Enum.at(white_card_values_sorted, 0)}
+    value_white =
+      Enum.sort(white_card_values, &(&1 >= &2))
+      |> Enum.at(0)
 
     winner =
       cond do

@@ -17,22 +17,16 @@ defmodule PokerHands.Rankers.FullHouseRanker do
   end
 
   def tie(hand_black, hand_white) do
-    {hand_black_full_house, hand_white_full_house} = {elem(hand_black, 1), elem(hand_white, 1)}
+    hand_black_suits_3 = SuitProvider.get_suit(elem(hand_black, 1), 3)
+    hand_white_suits_3 = SuitProvider.get_suit(elem(hand_white, 1), 3)
 
-    {hand_black_suits_3, hand_white_suits_3} =
-      {SuitProvider.get_suit(hand_black_full_house, 3),
-       SuitProvider.get_suit(hand_white_full_house, 3)}
+    black_card_values_sorted =
+      List.flatten(Enum.map(hand_black_suits_3, fn x -> CardValueProvider.get_card_values(x) end))
+      |> Enum.sort(&(&1 >= &2))
 
-    {black_card_values, white_card_values} =
-      {List.flatten(
-         Enum.map(hand_black_suits_3, fn x -> CardValueProvider.get_card_values(x) end)
-       ),
-       List.flatten(
-         Enum.map(hand_white_suits_3, fn x -> CardValueProvider.get_card_values(x) end)
-       )}
-
-    {black_card_values_sorted, white_card_values_sorted} =
-      {Enum.sort(black_card_values, &(&1 >= &2)), Enum.sort(white_card_values, &(&1 >= &2))}
+    white_card_values_sorted =
+      List.flatten(Enum.map(hand_white_suits_3, fn x -> CardValueProvider.get_card_values(x) end))
+      |> Enum.sort(&(&1 >= &2))
 
     winner =
       if HandComparer.hands_are_equal(black_card_values_sorted, white_card_values_sorted) do

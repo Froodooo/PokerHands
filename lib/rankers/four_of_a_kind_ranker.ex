@@ -21,14 +21,11 @@ defmodule PokerHands.Rankers.FourOfAKindRanker do
   end
 
   def tie(hand_black, hand_white) do
-    {pair_black, pair_white} = {elem(hand_black, 1), elem(hand_white, 1)}
+    black_card_values = CardValueProvider.get_card_values_indexed(elem(hand_black, 1))
+    white_card_values = CardValueProvider.get_card_values_indexed(elem(hand_white, 1))
 
-    {black_card_values, white_card_values} =
-      {CardValueProvider.get_card_values_indexed(pair_black),
-       CardValueProvider.get_card_values_indexed(pair_white)}
-
-    {value_black, value_white} =
-      {elem(Enum.at(black_card_values, 0), 0), elem(Enum.at(white_card_values, 0), 0)}
+    value_black = elem(Enum.at(black_card_values, 0), 0)
+    value_white = elem(Enum.at(white_card_values, 0), 0)
 
     winner =
       cond do
