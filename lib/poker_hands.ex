@@ -16,7 +16,7 @@ defmodule PokerHands do
 
     highest_rank = RankProvider.get_highest_rank(black_hand_rank, white_hand_rank)
 
-    highest_rank =
+    winner =
       if highest_rank == :tie do
         tied_rank = elem(black_hand_rank, 0)
         rank_tie_function = RankProvider.get_rank_tie_function(tied_rank)
@@ -29,6 +29,6 @@ defmodule PokerHands do
         highest_rank
       end
 
-    OutputWriter.write_winner(highest_rank, black_hand_rank, white_hand_rank)
+    OutputWriter.write_winner(winner, black_hand_rank, white_hand_rank)
   end
 end
