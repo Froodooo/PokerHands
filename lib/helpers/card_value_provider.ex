@@ -18,14 +18,10 @@ defmodule PokerHands.Helpers.CardValueProvider do
     {black_card_values, white_card_values}
   end
 
-  def get_hand_values(hand_black, hand_white) do
-    black_values = Enum.map(hand_black, fn x -> elem(x, 0) end)
-    white_values = Enum.map(hand_white, fn x -> elem(x, 0) end)
-
-    black_values_ordered = Enum.sort(black_values, &(&1 >= &2))
-    white_values_ordered = Enum.sort(white_values, &(&1 >= &2))
-
-    {black_values_ordered, white_values_ordered}
+  def get_hand_values(hand) do
+    values = Enum.map(hand, fn x -> elem(x, 0) end)
+    values_ordered = Enum.sort(values, &(&1 >= &2))
+    values_ordered
   end
 
   def get_hand_result(hand_with_index, all_highest_orders_indices) do

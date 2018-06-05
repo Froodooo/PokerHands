@@ -17,17 +17,18 @@ defmodule PokerHands.Rankers.HighCardRanker do
   end
 
   def tie(hand_black, hand_white) do
-    {black_card_values, white_card_values} =
-      CardValueProvider.get_card_values(hand_black, hand_white)
+    black_card_values =
+      CardValueProvider.get_card_values_indexed(elem(hand_black, 0))
+      |> CardValueProvider.get_hand_values()
 
-    {black_card_values_ordered, white_card_values_ordered} =
-      CardValueProvider.get_hand_values(black_card_values, white_card_values)
+    white_card_values =
+      CardValueProvider.get_card_values_indexed(elem(hand_white, 0))
+      |> CardValueProvider.get_hand_values()
 
     result =
-      if HandComparer.hands_are_equal(black_card_values_ordered, white_card_values_ordered),
+      if HandComparer.hands_are_equal(black_card_values, white_card_values),
         do: :tie,
-        else:
-          HandComparer.compare_card_values(black_card_values_ordered, white_card_values_ordered)
+        else: HandComparer.compare_card_values(black_card_values, white_card_values)
 
     result
   end
