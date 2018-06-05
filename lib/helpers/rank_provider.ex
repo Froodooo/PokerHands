@@ -10,8 +10,8 @@ defmodule PokerHands.Helpers.RankProvider do
   alias PokerHands.Rankers.HighCardRanker, as: HighCardRanker
 
   def get_highest_rank(black_rank, white_rank) do
-    {black_rank_order, white_rank_order} =
-      {get_rank_order(black_rank), get_rank_order(white_rank)}
+    black_rank_order = get_rank_order(black_rank)
+    white_rank_order = get_rank_order(white_rank)
 
     result =
       cond do
