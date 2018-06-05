@@ -22,8 +22,7 @@ defmodule PokerHands.Rankers.TwoPairRanker do
   end
 
   def tie(hand_black, hand_white) do
-    {hand_black_pairs, hand_white_pairs} = {elem(hand_black, 1), elem(hand_white, 1)}
-    highest_pair = get_highest_pair(hand_black_pairs, hand_white_pairs)
+    highest_pair = get_highest_pair(elem(hand_black, 1), elem(hand_white, 1))
 
     winner =
       case highest_pair do

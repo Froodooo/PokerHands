@@ -33,6 +33,23 @@ defmodule PokerHands.Helpers.CardValueProvider do
     result
   end
 
+  def get_highest_set_value(hand_black, hand_white) do
+    black_card_values = get_card_values_indexed(elem(hand_black, 1))
+    white_card_values = get_card_values_indexed(elem(hand_white, 1))
+
+    card_value_black = elem(Enum.at(black_card_values, 0), 0)
+    card_value_white = elem(Enum.at(white_card_values, 0), 0)
+
+    winner =
+      cond do
+        card_value_black > card_value_white -> :black
+        card_value_white > card_value_black -> :white
+        true -> :tie
+      end
+
+    winner
+  end
+
   defp get_card_value_order(atom) do
     case atom do
       :"1" -> 1

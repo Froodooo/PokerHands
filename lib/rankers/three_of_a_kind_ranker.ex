@@ -8,34 +8,21 @@ defmodule PokerHands.Rankers.ThreeOfAKindRanker do
     sets = SetProvider.get_sets(hand, 3)
 
     rank =
-      if Enum.count(sets) == 0 do
-        {false, []}
-      else
-        sets_indices = SetProvider.get_sets_indices(sets)
-        hand_indexed = Enum.with_index(hand)
-        CardValueProvider.get_hand_result(hand_indexed, sets_indices)
-      end
+      if Enum.count(sets) == 0,
+        do: {false, []},
+        else: get_three_of_a_kind_hand_result(sets, hand)
 
     rank
   end
 
   def tie(hand_black, hand_white) do
-    {pair_black, pair_white} = {elem(hand_black, 1), elem(hand_white, 1)}
-
-    {black_card_values, white_card_values} =
-      {CardValueProvider.get_card_values_indexed(pair_black),
-       CardValueProvider.get_card_values_indexed(pair_white)}
-
-    {value_black, value_white} =
-      {elem(Enum.at(black_card_values, 0), 0), elem(Enum.at(white_card_values, 0), 0)}
-
-    winner =
-      cond do
-        value_black > value_white -> :black
-        value_white > value_black -> :white
-        true -> :tie
-      end
-
+    winner = CardValueProvider.get_highest_set_value(hand_black, hand_white)
     winner
+  end
+
+  defp get_three_of_a_kind_hand_result(sets, hand) do
+    sets_indices = SetProvider.get_sets_indices(sets)
+    hand_indexed = Enum.with_index(hand)
+    CardValueProvider.get_hand_result(hand_indexed, sets_indices)
   end
 end

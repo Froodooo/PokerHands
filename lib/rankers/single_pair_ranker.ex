@@ -22,25 +22,14 @@ defmodule PokerHands.Rankers.SinglePairRanker do
   end
 
   def tie(hand_black, hand_white) do
-    result = get_highest_pair(hand_black, hand_white)
+    result = CardValueProvider.get_highest_set_value(hand_black, hand_white)
 
-    case result do
-      :tie -> HighCardRanker.tie(hand_black, hand_white)
-      _ -> result
-    end
-  end
+    winner =
+      case result do
+        :tie -> HighCardRanker.tie(hand_black, hand_white)
+        _ -> result
+      end
 
-  defp get_highest_pair(hand_black, hand_white) do
-    black_card_values = CardValueProvider.get_card_values_indexed(elem(hand_black, 1))
-    white_card_values = CardValueProvider.get_card_values_indexed(elem(hand_white, 1))
-
-    card_value_black = elem(Enum.at(black_card_values, 0), 0)
-    card_value_white = elem(Enum.at(white_card_values, 0), 0)
-
-    cond do
-      card_value_black > card_value_white -> :black
-      card_value_white > card_value_black -> :white
-      true -> :tie
-    end
+    winner
   end
 end
