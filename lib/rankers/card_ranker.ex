@@ -26,7 +26,7 @@ defmodule PokerHands.Rankers.CardRanker do
   end
 
   defp rank(rank, rank_function, hand, rank_atom) do
-    rank =
+    ranked_hand =
       if rank != nil do
         rank
       else
@@ -41,7 +41,7 @@ defmodule PokerHands.Rankers.CardRanker do
         rank
       end
 
-    rank
+    ranked_hand
   end
 
   defp is_ranked(rank) do
