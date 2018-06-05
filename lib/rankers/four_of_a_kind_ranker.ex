@@ -13,7 +13,7 @@ defmodule PokerHands.Rankers.FourOfAKindRanker do
       else
         sets_indices = SetProvider.get_sets_indices(sets)
         hand_indexed = Enum.with_index(hand)
-        result = CardValueProvider.get_hand_result(hand_indexed, sets_indices)
+        result = CardValueProvider.get_cards_with_highest_order(hand_indexed, sets_indices)
         result
       end
 

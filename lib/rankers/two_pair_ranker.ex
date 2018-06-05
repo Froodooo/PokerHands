@@ -13,7 +13,7 @@ defmodule PokerHands.Rankers.TwoPairRanker do
       if Enum.count(sets) == 2 do
         sets_indices = get_sets_indices(sets)
         hand_indexed = Enum.with_index(hand)
-        CardValueProvider.get_hand_result(hand_indexed, sets_indices)
+        CardValueProvider.get_cards_with_highest_order(hand_indexed, sets_indices)
       else
         {false, []}
       end

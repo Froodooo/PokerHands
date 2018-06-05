@@ -11,7 +11,7 @@ defmodule PokerHands.Rankers.HighCardRanker do
 
     result =
       Enum.with_index(hand)
-      |> CardValueProvider.get_hand_result(highest_card_values)
+      |> CardValueProvider.get_cards_with_highest_order(highest_card_values)
 
     result
   end
@@ -19,11 +19,11 @@ defmodule PokerHands.Rankers.HighCardRanker do
   def tie(hand_black, hand_white) do
     black_card_values =
       CardValueProvider.get_card_values_indexed(elem(hand_black, 0))
-      |> CardValueProvider.get_hand_values()
+      |> CardValueProvider.get_card_values_sorted()
 
     white_card_values =
       CardValueProvider.get_card_values_indexed(elem(hand_white, 0))
-      |> CardValueProvider.get_hand_values()
+      |> CardValueProvider.get_card_values_sorted()
 
     result =
       if HandComparer.hands_are_equal(black_card_values, white_card_values),

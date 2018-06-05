@@ -15,14 +15,14 @@ defmodule PokerHands.Rankers.SinglePairRanker do
         sets_indices = SetProvider.get_sets_indices(sets)
 
         Enum.with_index(hand)
-        |> CardValueProvider.get_hand_result(sets_indices)
+        |> CardValueProvider.get_cards_with_highest_order(sets_indices)
       end
 
     result
   end
 
   def tie(hand_black, hand_white) do
-    result = CardValueProvider.get_highest_set_value(hand_black, hand_white)
+    result = CardValueProvider.get_card_with_highest_set_value(hand_black, hand_white)
 
     winner =
       case result do

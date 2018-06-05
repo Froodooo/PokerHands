@@ -16,13 +16,13 @@ defmodule PokerHands.Rankers.ThreeOfAKindRanker do
   end
 
   def tie(hand_black, hand_white) do
-    winner = CardValueProvider.get_highest_set_value(hand_black, hand_white)
+    winner = CardValueProvider.get_card_with_highest_set_value(hand_black, hand_white)
     winner
   end
 
   defp get_three_of_a_kind_hand_result(sets, hand) do
     sets_indices = SetProvider.get_sets_indices(sets)
     hand_indexed = Enum.with_index(hand)
-    CardValueProvider.get_hand_result(hand_indexed, sets_indices)
+    CardValueProvider.get_cards_with_highest_order(hand_indexed, sets_indices)
   end
 end
