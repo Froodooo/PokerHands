@@ -73,16 +73,16 @@ defmodule PokerHands.Helpers.TextProvider do
     text
   end
 
-  defp get_flush_text(hand) do
-    {_, card_suit} = Enum.at(hand, 0)
+  defp get_flush_text(winner_cards) do
+    {_, card_suit} = Enum.at(winner_cards, 0)
     card_suit_text = get_card_suit_text(card_suit)
     text = "#{card_suit_text}"
     text
   end
 
-  defp get_full_house_text(hand) do
+  defp get_full_house_text(winner_cards) do
     text =
-      Enum.map(hand, fn x -> elem(x, 1) end)
+      Enum.map(winner_cards, fn x -> elem(x, 1) end)
       |> Enum.uniq()
       |> Enum.map(fn x -> get_card_suit_text(x) end)
       |> Enum.join(" and ")
@@ -95,13 +95,13 @@ defmodule PokerHands.Helpers.TextProvider do
     text
   end
 
-  defp get_straight_text(hand) do
+  defp get_straight_text(winner_cards) do
     highest_card_value =
-      CardValueProvider.get_card_values_indexed(hand)
+      CardValueProvider.get_card_values_indexed(winner_cards)
       |> Enum.sort(&(elem(&1, 0) >= elem(&2, 0)))
       |> Enum.at(0)
 
-    highest_card = Enum.at(hand, elem(highest_card_value, 1))
+    highest_card = Enum.at(winner_cards, elem(highest_card_value, 1))
 
     text =
       "#{get_card_value_text(elem(highest_card, 0))} of #{
@@ -111,9 +111,9 @@ defmodule PokerHands.Helpers.TextProvider do
     text
   end
 
-  defp get_two_pair_text(hand) do
+  defp get_two_pair_text(winner_cards) do
     text =
-      Enum.map(hand, fn x -> elem(x, 0) end)
+      Enum.map(winner_cards, fn x -> elem(x, 0) end)
       |> Enum.dedup()
       |> Enum.map(fn x -> get_card_value_text(x) end)
       |> Enum.join(" and ")
