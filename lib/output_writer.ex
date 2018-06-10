@@ -1,16 +1,25 @@
 defmodule PokerHands.OutputWriter do
-  def write_winner(highest_rank, hand_black, hand_white) do
+
+  @doc ~S"""
+  Return the winning player and its cards for a given winning player and player hands.
+
+  ## Examples
+      iex> alias PokerHands.FakeIOWriter, as: FakeIOWriter
+      ...> PokerHands.OutputWriter.write_winner(FakeIOWriter, :black, {:high_card, [{:A, :D}]}, {:high_card, [{:K, :D}]})
+      :ok
+  """
+  def write_winner(io \\IO, highest_rank, hand_black, hand_white) do
     case highest_rank do
-      :black -> write_to_console(highest_rank, elem(hand_black, 0))
-      :white -> write_to_console(highest_rank, elem(hand_white, 0))
+      :black -> write_to_console(io, highest_rank, elem(hand_black, 0))
+      :white -> write_to_console(io, highest_rank, elem(hand_white, 0))
       :tie -> IO.puts(highest_rank)
     end
   end
 
-  defp write_to_console(winner, rank) do
+  defp write_to_console(io, winner, rank) do
     winner_text = get_winner_text(winner)
     rank_text = get_rank_text(rank)
-    IO.puts("#{winner_text} wins - #{rank_text}")
+    io.puts("#{winner_text} wins - #{rank_text}")
   end
 
   defp get_winner_text(winner) do
