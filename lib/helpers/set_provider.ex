@@ -25,7 +25,7 @@ defmodule PokerHands.Helpers.SetProvider do
   end
 
   @doc ~S"""
-  Gets card indicies for given sets.
+  Gets card indices for given sets.
 
   ## Examples
       iex> PokerHands.Helpers.SetProvider.get_card_sets_indices([[{2, 0}, {2, 2}], [{3, 1}, {3, 3}]])
