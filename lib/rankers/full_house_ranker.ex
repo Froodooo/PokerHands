@@ -5,6 +5,13 @@ defmodule PokerHands.Rankers.FullHouseRanker do
   alias PokerHands.Helpers.SuitProvider, as: SuitProvider
   @behaviour HandRanker
 
+  @doc ~S"""
+  Ranks the given hand and returns true if it's a full house.
+
+  ## Examples
+      iex> PokerHands.Rankers.FullHouseRanker.rank([{:"2", :S}, {:"3", :S}, {:"4", :S}, {:"5", :C}, {:"6", :C}])
+      {true, [{:"2", :S}, {:"3", :S}, {:"4", :S}, {:"5", :C}, {:"6", :C}]}
+  """
   def rank(hand) do
     {suits_3, suits_2} = {SuitProvider.get_suit(hand, 3), SuitProvider.get_suit(hand, 2)}
 

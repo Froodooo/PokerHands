@@ -5,6 +5,13 @@ defmodule PokerHands.Rankers.StraightFlushRanker do
   alias PokerHands.Rankers.HighCardRanker, as: HighCardRanker
   @behaviour HandRanker
 
+  @doc ~S"""
+  Ranks the given hand and returns true if it's a straight flush.
+
+  ## Examples
+      iex> PokerHands.Rankers.StraightFlushRanker.rank([{:"3", :S}, {:"2", :S}, {:"5", :S}, {:"6", :S}, {:"4", :S}])
+      {true, [{:"3", :S}, {:"2", :S}, {:"5", :S}, {:"6", :S}, {:"4", :S}]}
+  """
   def rank(hand) do
     is_straight = elem(StraightRanker.rank(hand), 0)
     is_flush = elem(FlushRanker.rank(hand), 0)

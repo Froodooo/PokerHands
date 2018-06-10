@@ -3,6 +3,13 @@ defmodule PokerHands.Rankers.StraightRanker do
   alias PokerHands.Helpers.CardValueProvider, as: CardValueProvider
   @behaviour HandRanker
 
+  @doc ~S"""
+  Ranks the given hand and returns true if it's a straight.
+
+  ## Examples
+      iex> PokerHands.Rankers.StraightRanker.rank([{:"3", :S}, {:"2", :S}, {:"5", :S}, {:"6", :C}, {:"4", :C}])
+      {true, [{:"3", :S}, {:"2", :S}, {:"5", :S}, {:"6", :C}, {:"4", :C}]}
+  """
   def rank(hand) do
     card_values =
       CardValueProvider.get_card_values_indexed(hand)

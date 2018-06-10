@@ -4,6 +4,13 @@ defmodule PokerHands.Rankers.HighCardRanker do
   alias PokerHands.Helpers.CardValueProvider, as: CardValueProvider
   @behaviour HandRanker
 
+  @doc ~S"""
+  Ranks the given hand and returns true if it's a high card.
+
+  ## Examples
+      iex> PokerHands.Rankers.HighCardRanker.rank([{:"2", :H}, {:"3", :D}, {:"5", :S}, {:"9", :C}, {:K, :D}])
+      {true, [{:K, :D}]}
+  """
   def rank(hand) do
     highest_card_values =
       CardValueProvider.get_card_values_indexed(hand)

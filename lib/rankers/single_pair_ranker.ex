@@ -5,6 +5,13 @@ defmodule PokerHands.Rankers.SinglePairRanker do
   alias PokerHands.Rankers.HighCardRanker, as: HighCardRanker
   @behaviour HandRanker
 
+  @doc ~S"""
+  Ranks the given hand and returns true if it's a single pair.
+
+  ## Examples
+      iex> PokerHands.Rankers.SinglePairRanker.rank([{:"2", :H}, {:"3", :D}, {:"2", :S}, {:"9", :C}, {:K, :D}])
+      {true, [{:"2", :H}, {:"2", :S}]}
+  """
   def rank(hand) do
     sets = SetProvider.get_card_sets(hand, 2)
 

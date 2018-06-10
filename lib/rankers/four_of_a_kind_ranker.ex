@@ -1,9 +1,14 @@
 defmodule PokerHands.Rankers.FourOfAKindRanker do
-  alias PokerHands.Rankers.HandRanker, as: HandRanker
   alias PokerHands.Helpers.CardValueProvider, as: CardValueProvider
   alias PokerHands.Helpers.SetProvider, as: SetProvider
-  @behaviour HandRanker
 
+  @doc ~S"""
+  Ranks the given hand and returns true if it's a four of a kind.
+
+  ## Examples
+      iex> PokerHands.Rankers.FourOfAKindRanker.rank([{:"2", :H}, {:"3", :D}, {:"2", :S}, {:"2", :C}, {:"2", :D}])
+      {true, [{:"2", :H}, {:"2", :S}, {:"2", :C}, {:"2", :D}]}
+  """
   def rank(hand) do
     sets = SetProvider.get_card_sets(hand, 4)
 

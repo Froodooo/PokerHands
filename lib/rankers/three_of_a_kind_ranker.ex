@@ -4,6 +4,13 @@ defmodule PokerHands.Rankers.ThreeOfAKindRanker do
   alias PokerHands.Helpers.SetProvider, as: SetProvider
   @behaviour HandRanker
 
+  @doc ~S"""
+  Ranks the given hand and returns true if it's a three of a kind.
+
+  ## Examples
+      iex> PokerHands.Rankers.ThreeOfAKindRanker.rank([{:"2", :H}, {:"3", :D}, {:"2", :S}, {:"3", :C}, {:"2", :D}])
+      {true, [{:"2", :H}, {:"2", :S}, {:"2", :D}]}
+  """
   def rank(hand) do
     sets = SetProvider.get_card_sets(hand, 3)
 

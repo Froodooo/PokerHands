@@ -4,6 +4,13 @@ defmodule PokerHands.Rankers.FlushRanker do
   alias PokerHands.Helpers.SuitProvider, as: SuitProvider
   @behaviour HandRanker
 
+  @doc ~S"""
+  Ranks the given hand and returns true if it's a flush.
+
+  ## Examples
+      iex> PokerHands.Rankers.FlushRanker.rank([{:"2", :S}, {:"3", :S}, {:"4", :S}, {:"5", :S}, {:"6", :S}])
+      {true, [{:"2", :S}, {:"3", :S}, {:"4", :S}, {:"5", :S}, {:"6", :S}]}
+  """
   def rank(hand) do
     suits = SuitProvider.get_suit(hand, 5)
 
