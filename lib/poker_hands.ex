@@ -15,25 +15,25 @@ defmodule PokerHands do
     {black_hand_parsed, white_hand_parsed} =
       {HandParser.parse(black_hand), HandParser.parse(white_hand)}
 
-    {black_hand_rank, white_hand_rank} =
+    {black_hand_ranked, white_hand_ranked} =
       {CardRanker.rank(black_hand_parsed), CardRanker.rank(white_hand_parsed)}
 
-    highest_rank = RankProvider.get_highest_rank(black_hand_rank, white_hand_rank)
+    highest_rank = RankProvider.get_highest_rank(black_hand_ranked, white_hand_ranked)
 
     winner =
       if highest_rank == :tie do
-        tied_rank = elem(black_hand_rank, 0)
+        tied_rank = elem(black_hand_ranked, 0)
         rank_tie_function = RankProvider.get_rank_tie_function(tied_rank)
 
         rank_tie_function.(
-          {black_hand_parsed, elem(black_hand_rank, 1)},
-          {white_hand_parsed, elem(white_hand_rank, 1)}
+          {black_hand_parsed, elem(black_hand_ranked, 1)},
+          {white_hand_parsed, elem(white_hand_ranked, 1)}
         )
       else
         highest_rank
       end
 
-    winner_text = OutputProvider.get_winner_text(winner, black_hand_rank, white_hand_rank)
+    winner_text = OutputProvider.get_winner_text(winner, black_hand_ranked, white_hand_ranked)
     winner_text
   end
 end
