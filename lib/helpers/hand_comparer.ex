@@ -20,7 +20,7 @@ defmodule PokerHands.Helpers.HandComparer do
   end
 
   @doc ~S"""
-  Determines who wins given two lists of numerical indexed card values.
+  Determines who wins given two lists of numerical card values.
 
   ## Examples
       iex> PokerHands.Helpers.HandComparer.compare_hands([13,9,5,3,2],[14,8,4,3,2])
@@ -38,6 +38,30 @@ defmodule PokerHands.Helpers.HandComparer do
         head_black > head_white -> :black
         head_white > head_black -> :white
         true -> compare_hands(tl(hand_black), tl(hand_white))
+      end
+
+    winner
+  end
+
+  @doc ~S"""
+  Determines who wins given two lists of numerical indexed card values.
+
+  ## Examples
+      iex> PokerHands.Helpers.HandComparer.compare_hands([{13,0},{9,1},{5,2},{3,3},{2,4}],[{14,0},{8,1},{4,2},{3,3},{2,4}])
+      :white
+
+      iex> PokerHands.Helpers.HandComparer.compare_hands([{14,0},{8,1},{4,2},{3,3},{2,4}],[{13,0},{9,1},{5,2},{3,3},{2,4}])
+      :black
+  """
+  def compare_hands_indexed(hand_black, hand_white) do
+    {head_black_value, head_black_index} = hd(hand_black)
+    {head_white_value, head_white_index} = hd(hand_white)
+
+    winner =
+      cond do
+        head_black_value > head_white_value -> {:black, head_black_index}
+        head_white_value > head_black_value -> {:white, head_white_index}
+        true -> compare_hands_indexed(tl(hand_black), tl(hand_white))
       end
 
     winner

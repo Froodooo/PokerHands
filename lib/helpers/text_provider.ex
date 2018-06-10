@@ -14,17 +14,17 @@ defmodule PokerHands.Helpers.TextProvider do
       iex> PokerHands.Helpers.SuitProvider.get_suit(["2": :C,"3": :C,"5": :C,"9": :D,K: :D], 2)
       [["9": :D,K: :D]]
   """
-  def get_rank_winner_card_text(rank, hand) do
+  def get_rank_winner_card_text(rank, winner_cards) do
     rank_winner_card_text =
       case rank do
-        :high_card -> get_hand_card_value_text(hand)
-        :single_pair -> get_hand_card_value_text(hand)
-        :two_pair -> get_two_pair_text(hand)
-        :three_of_a_kind -> get_hand_card_value_text(hand)
-        :straight -> get_straight_text(hand)
-        :flush -> get_flush_text(hand)
-        :full_house -> get_full_house_text(hand)
-        :four_of_a_kind -> get_hand_card_value_text(hand)
+        :high_card -> get_hand_card_value_text(winner_cards)
+        :single_pair -> get_hand_card_value_text(winner_cards)
+        :two_pair -> get_two_pair_text(winner_cards)
+        :three_of_a_kind -> get_hand_card_value_text(winner_cards)
+        :straight -> get_straight_text(winner_cards)
+        :flush -> get_flush_text(winner_cards)
+        :full_house -> get_full_house_text(winner_cards)
+        :four_of_a_kind -> get_hand_card_value_text(winner_cards)
         :straight_flush -> get_straight_flush_text()
       end
 
@@ -64,10 +64,11 @@ defmodule PokerHands.Helpers.TextProvider do
     card_value_text
   end
 
-  defp get_hand_card_value_text(hand) do
-    {card_value, _} = Enum.at(hand, 0)
-    card_value_text = get_card_value_text(card_value)
-    text = "#{card_value_text}"
+  defp get_hand_card_value_text(winner_cards) do
+    text = 
+    Enum.map(winner_cards, fn x -> elem(x, 0) end) 
+      |> Enum.map(fn x -> get_card_value_text(x) end) 
+      |> Enum.join(" and ")
     text
   end
 

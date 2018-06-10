@@ -8,11 +8,11 @@ defmodule PokerHands.OutputProvider do
       iex> PokerHands.OutputProvider.get_winner_text({:black, nil}, {:high_card, [{:A, :D}]}, {:high_card, [{:K, :D}]})
       "Black wins - high card: ace"
   """
-  def get_winner_text(highest_rank, hand_black, hand_white) do
+  def get_winner_text(winner, hand_black, hand_white) do
     winner_text =
-      case highest_rank do
-        {:black, _} -> create_winner_text(highest_rank, hand_black)
-        {:white, _} -> create_winner_text(highest_rank, hand_white)
+      case winner do
+        {:black, _} -> create_winner_text(winner, hand_black)
+        {:white, _} -> create_winner_text(winner, hand_white)
         {:tie, _} -> "tie"
       end
 
@@ -50,9 +50,12 @@ defmodule PokerHands.OutputProvider do
     winner_text = get_winner_text(winner)
     rank = elem(hand, 0)
     rank_text = get_rank_text(rank)
-    rank_hand = elem(hand, 1)
-    rank_winner_card_text = TextProvider.get_rank_winner_card_text(rank, rank_hand)
-    winner_text = "#{winner_text} wins - #{rank_text}: #{rank_winner_card_text}"
+    winner_cards = elem(winner, 1)
+    winner_text = "#{winner_text} wins - #{rank_text}"
+
+    rank_winner_card_text = if winner_cards == nil, do: nil, else: TextProvider.get_rank_winner_card_text(rank, winner_cards)
+    winner_text = if rank_winner_card_text == nil, do: winner_text, else: winner_text <> ": #{rank_winner_card_text}"
+
     winner_text
   end
 end

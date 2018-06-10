@@ -24,17 +24,14 @@ defmodule PokerHands.Helpers.CardValueProvider do
   end
 
   @doc ~S"""
-  Gets the sorted numerical values from a hand with numerical card values.
+  Gets the sorted indexed numerical values from a hand with indexed numerical card values.
 
   ## Examples
       iex> PokerHands.Helpers.CardValueProvider.get_card_values_sorted([{2, 0},{3, 1},{5, 2},{9, 3},{13, 4}])
-      [13,9,5,3,2]
+      [{13,4},{9,3},{5,2},{3,1},{2,0}]
   """
   def get_card_values_sorted(hand) do
-    values =
-      Enum.map(hand, fn x -> elem(x, 0) end)
-      |> Enum.sort(&(&1 >= &2))
-
+    values = Enum.sort(hand, &(elem(&1, 0) >= elem(&2, 0)))
     values
   end
 
