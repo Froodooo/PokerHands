@@ -9,6 +9,40 @@ defmodule PokerHands.Rankers.CardRanker do
   alias PokerHands.Rankers.SinglePairRanker, as: SinglePairRanker
   alias PokerHands.Rankers.HighCardRanker, as: HighCardRanker
 
+  @doc ~S"""
+  Gets the rank for a given hand.
+
+  ## Examples
+      iex> PokerHands.Rankers.CardRanker.rank(["2": :C,"3": :C,"5": :C,"9": :D,K: :H])
+      {:high_card, [K: :H]}
+
+      iex> PokerHands.Rankers.CardRanker.rank(["2": :C,"3": :C,"5": :C,K: :D,K: :H])
+      {:single_pair, [K: :D, K: :H]}
+
+      iex> PokerHands.Rankers.CardRanker.rank(["2": :C,"3": :C,"2": :S,K: :D,K: :H])
+      {:two_pair, ["2": :C,"2": :S,K: :D,K: :H]}
+
+      iex> PokerHands.Rankers.CardRanker.rank(["2": :C,K: :C,"3": :S,K: :D,K: :H])
+      {:three_of_a_kind, [K: :C,K: :D,K: :H]}
+
+      iex> PokerHands.Rankers.CardRanker.rank([T: :C,J: :C,Q: :S,K: :D,A: :H])
+      {:straight, [T: :C,J: :C,Q: :S,K: :D,A: :H]}
+
+      iex> PokerHands.Rankers.CardRanker.rank(["9": :C,J: :C,Q: :C,K: :C,A: :C])
+      {:flush, ["9": :C,J: :C,Q: :C,K: :C,A: :C]}
+
+      iex> PokerHands.Rankers.CardRanker.rank(["9": :C,J: :C,Q: :C,K: :D,A: :D])
+      {:full_house, ["9": :C,J: :C,Q: :C,K: :D,A: :D]}
+
+      iex> PokerHands.Rankers.CardRanker.rank(["9": :C,"9": :D,"9": :S,"9": :H,A: :D])
+      {:four_of_a_kind, ["9": :C,"9": :D,"9": :S,"9": :H]}
+
+      iex> PokerHands.Rankers.CardRanker.rank(["2": :C,"3": :C,"5": :C,"9": :C,K: :C])
+      {:flush, ["2": :C,"3": :C,"5": :C,"9": :C,K: :C]}
+
+      iex> PokerHands.Rankers.CardRanker.rank([T: :C,J: :C,Q: :C,K: :C,A: :C])
+      {:straight_flush, [T: :C,J: :C,Q: :C,K: :C,A: :C]}
+  """
   def rank(hand) do
     rank =
       nil
