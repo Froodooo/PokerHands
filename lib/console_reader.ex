@@ -8,7 +8,7 @@ defmodule PokerHands.ConsoleReader do
       ...> PokerHands.ConsoleReader.read(FakeIO)
       {"2H 3D 5S 9C KD", "2C 3H 4S 8C AH"}
   """
-  def read(io) do
+  def read(io \\ IO) do
     black_hand = io.gets("Enter black hand:\n")
     white_hand = io.gets("Enter white hand:\n")
 

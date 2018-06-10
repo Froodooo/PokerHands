@@ -5,8 +5,8 @@ defmodule PokerHands do
   alias PokerHands.Helpers.RankProvider, as: RankProvider
   alias PokerHands.OutputWriter, as: OutputWriter
 
-  def run(io \\IO) do
-    {black_hand, white_hand} = ConsoleReader.read(io)
+  def run() do
+    {black_hand, white_hand} = ConsoleReader.read()
 
     {black_hand_parsed, white_hand_parsed} =
       {HandParser.parse(black_hand), HandParser.parse(white_hand)}
