@@ -23,13 +23,13 @@ defmodule PokerHands.Helpers.HandComparer do
   Determines who wins given two lists of numerical indexed card values.
 
   ## Examples
-      iex> PokerHands.Helpers.HandComparer.compare_card_values([13,9,5,3,2],[14,8,4,3,2])
+      iex> PokerHands.Helpers.HandComparer.get_player_with_highest_card([13,9,5,3,2],[14,8,4,3,2])
       :white
 
-      iex> PokerHands.Helpers.HandComparer.compare_card_values([14,8,4,3,2],[13,9,5,3,2])
+      iex> PokerHands.Helpers.HandComparer.get_player_with_highest_card([14,8,4,3,2],[13,9,5,3,2])
       :black
   """
-  def compare_card_values(hand_black, hand_white) do
+  def get_player_with_highest_card(hand_black, hand_white) do
     head_black = hd(hand_black)
     head_white = hd(hand_white)
 
@@ -37,7 +37,7 @@ defmodule PokerHands.Helpers.HandComparer do
       cond do
         head_black > head_white -> :black
         head_white > head_black -> :white
-        true -> compare_card_values(tl(hand_black), tl(hand_white))
+        true -> get_player_with_highest_card(tl(hand_black), tl(hand_white))
       end
 
     winner
