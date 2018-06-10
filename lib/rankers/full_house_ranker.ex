@@ -28,11 +28,13 @@ defmodule PokerHands.Rankers.FullHouseRanker do
     hand_white_suits_3 = SuitProvider.get_suit(elem(hand_white, 1), 3)
 
     black_card_values_sorted =
-      List.flatten(Enum.map(hand_black_suits_3, fn x -> CardValueProvider.get_card_values(x) end))
+      Enum.map(hand_black_suits_3, fn x -> CardValueProvider.get_card_values(x) end)
+      |> List.flatten()
       |> Enum.sort(&(&1 >= &2))
 
     white_card_values_sorted =
-      List.flatten(Enum.map(hand_white_suits_3, fn x -> CardValueProvider.get_card_values(x) end))
+      Enum.map(hand_white_suits_3, fn x -> CardValueProvider.get_card_values(x) end)
+      |> List.flatten()
       |> Enum.sort(&(&1 >= &2))
 
     winner =
