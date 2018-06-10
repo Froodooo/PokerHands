@@ -1,5 +1,4 @@
 defmodule PokerHands.ConsoleReader do
-
   @doc ~S"""
   Reads a given hand from the console.
 

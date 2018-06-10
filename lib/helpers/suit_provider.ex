@@ -1,5 +1,4 @@
 defmodule PokerHands.Helpers.SuitProvider do
-
   @doc ~S"""
   Gets suits for a given hand and a suit size.
 

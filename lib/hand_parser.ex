@@ -1,5 +1,4 @@
 defmodule PokerHands.HandParser do
-  
   @doc ~S"""
   Parses the given hand into a format that the program recognizes.
 

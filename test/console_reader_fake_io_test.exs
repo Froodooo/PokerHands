@@ -4,5 +4,5 @@ defmodule PokerHands.FakeIOReader do
 end
 
 defmodule PokerHands.FakeIOWriter do
-  def puts("Black wins - high card"), do: :ok
+  def puts("Black wins - high card: ace"), do: :ok
 end
