@@ -34,9 +34,9 @@ defmodule PokerHands.Rankers.FourOfAKindRanker do
 
     winner =
       cond do
-        value_black > value_white -> :black
-        value_white > value_black -> :white
-        true -> :tie
+        value_black > value_white -> {:black, nil}
+        value_white > value_black -> {:white, nil}
+        true -> {:tie, nil}
       end
 
     winner

@@ -39,9 +39,9 @@ defmodule PokerHands.Rankers.FullHouseRanker do
 
     winner =
       if HandComparer.hands_are_equal(black_card_values_sorted, white_card_values_sorted) do
-        :tie
+        {:tie, nil}
       else
-        HandComparer.compare_hands(black_card_values_sorted, white_card_values_sorted)
+        {HandComparer.compare_hands(black_card_values_sorted, white_card_values_sorted), nil}
       end
 
     winner

@@ -23,7 +23,7 @@ defmodule PokerHands.Rankers.ThreeOfAKindRanker do
   end
 
   def tie(hand_black, hand_white) do
-    winner = CardValueProvider.get_card_with_highest_set_value(hand_black, hand_white)
+    winner = {CardValueProvider.get_card_with_highest_set_value(hand_black, hand_white), nil}
     winner
   end
 

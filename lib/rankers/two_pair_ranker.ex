@@ -34,7 +34,7 @@ defmodule PokerHands.Rankers.TwoPairRanker do
     winner =
       case highest_pair do
         :tie -> HighCardRanker.tie(hand_black, hand_white)
-        _ -> highest_pair
+        _ -> {highest_pair, nil}
       end
 
     winner

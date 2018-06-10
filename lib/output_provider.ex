@@ -5,15 +5,15 @@ defmodule PokerHands.OutputProvider do
   Returns the winning player and its cards as winner text for a given winning player and player hands.
 
   ## Examples
-      iex> PokerHands.OutputProvider.get_winner_text(:black, {:high_card, [{:A, :D}]}, {:high_card, [{:K, :D}]})
+      iex> PokerHands.OutputProvider.get_winner_text({:black, nil}, {:high_card, [{:A, :D}]}, {:high_card, [{:K, :D}]})
       "Black wins - high card: ace"
   """
   def get_winner_text(highest_rank, hand_black, hand_white) do
     winner_text =
       case highest_rank do
-        :black -> create_winner_text(highest_rank, hand_black)
-        :white -> create_winner_text(highest_rank, hand_white)
-        :tie -> highest_rank
+        {:black, _} -> create_winner_text(highest_rank, hand_black)
+        {:white, _} -> create_winner_text(highest_rank, hand_white)
+        {:tie, _} -> "tie"
       end
 
     winner_text
@@ -39,8 +39,8 @@ defmodule PokerHands.OutputProvider do
   defp get_winner_text(winner) do
     winner_text =
       case winner do
-        :black -> "Black"
-        :white -> "White"
+        {:black, _} -> "Black"
+        {:white, _} -> "White"
       end
 
     winner_text

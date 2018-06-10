@@ -30,7 +30,7 @@ defmodule PokerHands do
           {white_hand_parsed, elem(white_hand_ranked, 1)}
         )
       else
-        highest_rank
+        {highest_rank, nil}
       end
 
     winner_text = OutputProvider.get_winner_text(winner, black_hand_ranked, white_hand_ranked)

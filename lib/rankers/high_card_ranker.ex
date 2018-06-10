@@ -34,8 +34,8 @@ defmodule PokerHands.Rankers.HighCardRanker do
 
     result =
       if HandComparer.hands_are_equal(black_card_values, white_card_values),
-        do: :tie,
-        else: HandComparer.compare_hands(black_card_values, white_card_values)
+        do: {:tie, nil},
+        else: {HandComparer.compare_hands(black_card_values, white_card_values), nil}
 
     result
   end
