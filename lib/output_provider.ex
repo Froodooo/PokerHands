@@ -9,14 +9,15 @@ defmodule PokerHands.OutputProvider do
       "Black wins - high card: ace"
   """
   def get_winner_text(highest_rank, hand_black, hand_white) do
-    winner_text = case highest_rank do
-      :black -> create_winner_text(highest_rank, hand_black)
-      :white -> create_winner_text(highest_rank, hand_white)
-      :tie -> highest_rank
-    end
+    winner_text =
+      case highest_rank do
+        :black -> create_winner_text(highest_rank, hand_black)
+        :white -> create_winner_text(highest_rank, hand_white)
+        :tie -> highest_rank
+      end
 
     winner_text
-  end  
+  end
 
   defp get_rank_text(rank) do
     rank_text =
