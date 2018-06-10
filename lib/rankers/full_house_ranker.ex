@@ -39,7 +39,7 @@ defmodule PokerHands.Rankers.FullHouseRanker do
       if HandComparer.hands_are_equal(black_card_values_sorted, white_card_values_sorted) do
         :tie
       else
-        HandComparer.get_player_with_highest_card(black_card_values_sorted, white_card_values_sorted)
+        HandComparer.compare_hands(black_card_values_sorted, white_card_values_sorted)
       end
 
     winner

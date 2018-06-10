@@ -35,7 +35,7 @@ defmodule PokerHands.Rankers.HighCardRanker do
     result =
       if HandComparer.hands_are_equal(black_card_values, white_card_values),
         do: :tie,
-        else: HandComparer.get_player_with_highest_card(black_card_values, white_card_values)
+        else: HandComparer.compare_hands(black_card_values, white_card_values)
 
     result
   end
