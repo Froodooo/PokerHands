@@ -13,7 +13,7 @@ defmodule PokerHands.OutputProvider do
       case winner do
         {:black, _} -> create_winner_text(winner, hand_black)
         {:white, _} -> create_winner_text(winner, hand_white)
-        {:tie, _} -> "tie"
+        {:tie, _} -> "Tie"
       end
 
     winner_text
