@@ -1,13 +1,10 @@
 defmodule PokerHands do
-  alias PokerHands.ConsoleReader, as: ConsoleReader
   alias PokerHands.HandParser, as: HandParser
   alias PokerHands.Rankers.CardRanker, as: CardRanker
   alias PokerHands.Helpers.RankProvider, as: RankProvider
   alias PokerHands.OutputWriter, as: OutputWriter
 
-  def run() do
-    {black_hand, white_hand} = ConsoleReader.read()
-
+  def run(black_hand, white_hand) do
     {black_hand_parsed, white_hand_parsed} =
       {HandParser.parse(black_hand), HandParser.parse(white_hand)}
 
