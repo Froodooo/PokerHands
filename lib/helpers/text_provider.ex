@@ -5,14 +5,26 @@ defmodule PokerHands.Helpers.TextProvider do
   Gets the text to be printed for the winning hand.
 
   ## Examples
-      iex> PokerHands.Helpers.SuitProvider.get_suit(["2": :C,"3": :C,"5": :C,"9": :C,K: :C], 5)
-      [["2": :C,"3": :C,"5": :C,"9": :C,K: :C]]
+      iex> PokerHands.Helpers.TextProvider.get_rank_winner_card_text(:high_card, [K: :C])
+      "king"
 
-      iex> PokerHands.Helpers.SuitProvider.get_suit(["2": :C,"3": :C,"5": :C,"9": :D,K: :D], 3)
-      [["2": :C,"3": :C,"5": :C]]
+      iex> PokerHands.Helpers.TextProvider.get_rank_winner_card_text(:two_pair, [K: :C])
+      "king"
 
-      iex> PokerHands.Helpers.SuitProvider.get_suit(["2": :C,"3": :C,"5": :C,"9": :D,K: :D], 2)
-      [["9": :D,K: :D]]
+      iex> PokerHands.Helpers.TextProvider.get_rank_winner_card_text(:two_pair, [K: :C, K: :D, A: :C, A: :D])
+      "king and ace"
+
+      iex> PokerHands.Helpers.TextProvider.get_rank_winner_card_text(:straight, [T: :C, J: :D, Q: :C, K: :D, A: :S])
+      "ace of spades"
+
+      iex> PokerHands.Helpers.TextProvider.get_rank_winner_card_text(:straight, [A: :S])
+      "ace of spades"
+
+      iex> PokerHands.Helpers.TextProvider.get_rank_winner_card_text(:flush, ["9": :C, T: :C, J: :D, Q: :C, K: :C])
+      "king of clubs"
+
+      iex> PokerHands.Helpers.TextProvider.get_rank_winner_card_text(:straight_flush, [T: :C, J: :C, K: :C, Q: :C, A: :C])
+      "ace of clubs"
   """
   def get_rank_winner_card_text(rank, winner_cards) do
     rank_winner_card_text =
@@ -22,10 +34,10 @@ defmodule PokerHands.Helpers.TextProvider do
         :two_pair -> get_two_pair_text(winner_cards)
         :three_of_a_kind -> get_hand_card_value_text(winner_cards)
         :straight -> get_straight_text(winner_cards)
-        :flush -> get_flush_text(winner_cards)
+        :flush -> get_straight_text(winner_cards)
         :full_house -> get_full_house_text(winner_cards)
         :four_of_a_kind -> get_hand_card_value_text(winner_cards)
-        :straight_flush -> get_straight_flush_text()
+        :straight_flush -> get_straight_text(winner_cards)
       end
 
     rank_winner_card_text
@@ -73,13 +85,6 @@ defmodule PokerHands.Helpers.TextProvider do
     text
   end
 
-  defp get_flush_text(winner_cards) do
-    {_, card_suit} = Enum.at(winner_cards, 0)
-    card_suit_text = get_card_suit_text(card_suit)
-    text = "#{card_suit_text}"
-    text
-  end
-
   defp get_full_house_text(winner_cards) do
     text =
       Enum.map(winner_cards, fn x -> elem(x, 1) end)
@@ -87,11 +92,6 @@ defmodule PokerHands.Helpers.TextProvider do
       |> Enum.map(fn x -> get_card_suit_text(x) end)
       |> Enum.join(" and ")
 
-    text
-  end
-
-  defp get_straight_flush_text do
-    text = "ace"
     text
   end
 
