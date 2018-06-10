@@ -65,10 +65,11 @@ defmodule PokerHands.Helpers.TextProvider do
   end
 
   defp get_hand_card_value_text(winner_cards) do
-    text = 
-    Enum.map(winner_cards, fn x -> elem(x, 0) end) 
-      |> Enum.map(fn x -> get_card_value_text(x) end) 
+    text =
+      Enum.map(winner_cards, fn x -> elem(x, 0) end)
+      |> Enum.map(fn x -> get_card_value_text(x) end)
       |> Enum.join(" and ")
+
     text
   end
 

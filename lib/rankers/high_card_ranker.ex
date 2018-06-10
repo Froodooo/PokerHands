@@ -35,19 +35,24 @@ defmodule PokerHands.Rankers.HighCardRanker do
     result =
       if HandComparer.hands_are_equal(black_card_values, white_card_values) do
         {:tie, nil}
-      else 
-        {winner, card_index} = HandComparer.compare_hands_indexed(black_card_values, white_card_values)
-        if winner == :tie, do: {:tie, nil}, else: get_tie_winner({winner, card_index}, elem(hand_black, 0), elem(hand_white, 0))
+      else
+        {winner, card_index} =
+          HandComparer.compare_hands_indexed(black_card_values, white_card_values)
+
+        if winner == :tie,
+          do: {:tie, nil},
+          else: get_tie_winner({winner, card_index}, elem(hand_black, 0), elem(hand_white, 0))
       end
 
     result
   end
 
   defp get_tie_winner({winner, card_index}, hand_black, hand_white) do
-    result = case winner do
-      :black -> [Enum.at(hand_black, card_index)]
-      :white -> [Enum.at(hand_white, card_index)]
-    end
+    result =
+      case winner do
+        :black -> [Enum.at(hand_black, card_index)]
+        :white -> [Enum.at(hand_white, card_index)]
+      end
 
     {winner, result}
   end
