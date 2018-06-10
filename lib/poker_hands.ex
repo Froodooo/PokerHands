@@ -4,6 +4,13 @@ defmodule PokerHands do
   alias PokerHands.Helpers.RankProvider, as: RankProvider
   alias PokerHands.OutputProvider, as: OutputProvider
 
+  @doc ~S"""
+  Returns the winner of two poker hands.
+
+  ## Examples
+      iex> PokerHands.run("2H 3D 5S 9C KD", "2C 3H 4S 8C AH")
+      "White wins - high card: ace"
+  """
   def run(black_hand, white_hand) do
     {black_hand_parsed, white_hand_parsed} =
       {HandParser.parse(black_hand), HandParser.parse(white_hand)}
