@@ -1,20 +1,21 @@
-defmodule PokerHands.OutputWriter do
+defmodule PokerHands.OutputProvider do
   alias PokerHands.Helpers.TextProvider, as: TextProvider
 
   @doc ~S"""
-  Return the winning player and its cards for a given winning player and player hands.
+  Returns the winning player and its cards as winner text for a given winning player and player hands.
 
   ## Examples
-      iex> alias PokerHands.FakeIOWriter, as: FakeIOWriter
-      ...> PokerHands.OutputWriter.write_winner(FakeIOWriter, :black, {:high_card, [{:A, :D}]}, {:high_card, [{:K, :D}]})
-      :ok
+      iex> PokerHands.OutputProvider.get_winner_text(:black, {:high_card, [{:A, :D}]}, {:high_card, [{:K, :D}]})
+      "Black wins - high card: ace"
   """
-  def write_winner(io \\ IO, highest_rank, hand_black, hand_white) do
-    case highest_rank do
-      :black -> write_to_console(io, highest_rank, hand_black)
-      :white -> write_to_console(io, highest_rank, hand_white)
-      :tie -> IO.puts(highest_rank)
+  def get_winner_text(highest_rank, hand_black, hand_white) do
+    winner_text = case highest_rank do
+      :black -> create_winner_text(highest_rank, hand_black)
+      :white -> create_winner_text(highest_rank, hand_white)
+      :tie -> highest_rank
     end
+
+    winner_text
   end  
 
   defp get_rank_text(rank) do
@@ -44,12 +45,13 @@ defmodule PokerHands.OutputWriter do
     winner_text
   end
 
-  defp write_to_console(io, winner, hand) do
+  defp create_winner_text(winner, hand) do
     winner_text = get_winner_text(winner)
     rank = elem(hand, 0)
     rank_text = get_rank_text(rank)
     rank_hand = elem(hand, 1)
     rank_winner_card_text = TextProvider.get_rank_winner_card_text(rank, rank_hand)
-    io.puts("#{winner_text} wins - #{rank_text}: #{rank_winner_card_text}")
+    winner_text = "#{winner_text} wins - #{rank_text}: #{rank_winner_card_text}"
+    winner_text
   end
 end

@@ -1,6 +1,19 @@
 defmodule PokerHands.Helpers.TextProvider do
   alias PokerHands.Helpers.CardValueProvider, as: CardValueProvider
 
+  @doc ~S"""
+  Gets the text to be printed for the winning hand.
+
+  ## Examples
+      iex> PokerHands.Helpers.SuitProvider.get_suit(["2": :C,"3": :C,"5": :C,"9": :C,K: :C], 5)
+      [["2": :C,"3": :C,"5": :C,"9": :C,K: :C]]
+
+      iex> PokerHands.Helpers.SuitProvider.get_suit(["2": :C,"3": :C,"5": :C,"9": :D,K: :D], 3)
+      [["2": :C,"3": :C,"5": :C]]
+
+      iex> PokerHands.Helpers.SuitProvider.get_suit(["2": :C,"3": :C,"5": :C,"9": :D,K: :D], 2)
+      [["9": :D,K: :D]]
+  """
   def get_rank_winner_card_text(rank, hand) do
     rank_winner_card_text =
       case rank do

@@ -2,7 +2,7 @@ defmodule PokerHands do
   alias PokerHands.HandParser, as: HandParser
   alias PokerHands.Rankers.CardRanker, as: CardRanker
   alias PokerHands.Helpers.RankProvider, as: RankProvider
-  alias PokerHands.OutputWriter, as: OutputWriter
+  alias PokerHands.OutputProvider, as: OutputProvider
 
   def run(black_hand, white_hand) do
     {black_hand_parsed, white_hand_parsed} =
@@ -26,6 +26,7 @@ defmodule PokerHands do
         highest_rank
       end
 
-    OutputWriter.write_winner(winner, black_hand_rank, white_hand_rank)
+    winner_text = OutputProvider.get_winner_text(winner, black_hand_rank, white_hand_rank)
+    winner_text
   end
 end
