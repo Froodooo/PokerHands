@@ -6,7 +6,7 @@ defmodule PokerHands.Helpers.TextProvider do
 
   ## Examples
       iex> PokerHands.Helpers.TextProvider.get_rank_winner_card_text(:high_card, [K: :C])
-      "king"
+      "king of clubs"
 
       iex> PokerHands.Helpers.TextProvider.get_rank_winner_card_text(:two_pair, [K: :C])
       "king"
@@ -78,8 +78,9 @@ defmodule PokerHands.Helpers.TextProvider do
 
   defp get_hand_card_value_text(winner_cards) do
     text =
-      Enum.map(winner_cards, fn x -> elem(x, 0) end)
-      |> Enum.map(fn x -> get_card_value_text(x) end)
+      Enum.map(winner_cards, fn x ->
+        "#{get_card_value_text(elem(x, 0))} of #{get_card_suit_text(elem(x, 1))}"
+      end)
       |> Enum.join(" and ")
 
     text
