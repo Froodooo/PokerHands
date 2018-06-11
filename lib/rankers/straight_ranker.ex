@@ -27,21 +27,21 @@ defmodule PokerHands.Rankers.StraightRanker do
   end
 
   def tie(hand_black, hand_white) do
-    black_card_values = CardValueProvider.get_card_values(elem(hand_black, 1))
-    white_card_values = CardValueProvider.get_card_values(elem(hand_white, 1))
+    black_card_values = CardValueProvider.get_card_values_indexed(elem(hand_black, 1))
+    white_card_values = CardValueProvider.get_card_values_indexed(elem(hand_white, 1))
 
-    value_black =
-      Enum.sort(black_card_values, &(&1 >= &2))
+    {value_black, index_black} =
+      Enum.sort(black_card_values, &(elem(&1, 0) >= elem(&2, 0)))
       |> Enum.at(0)
 
-    value_white =
-      Enum.sort(white_card_values, &(&1 >= &2))
+    {value_white, index_white} =
+      Enum.sort(white_card_values, &(elem(&1, 0) >= elem(&2, 0)))
       |> Enum.at(0)
 
     winner =
       cond do
-        value_black > value_white -> {:black, nil}
-        value_white > value_black -> {:white, nil}
+        value_black > value_white -> {:black, [Enum.at(elem(hand_black, 1), index_black)]}
+        value_white > value_black -> {:white, [Enum.at(elem(hand_white, 1), index_white)]}
         true -> {:tie, nil}
       end
 

@@ -33,8 +33,8 @@ defmodule PokerHands.Rankers.TwoPairRanker do
 
     winner =
       case highest_pair do
-        :tie -> HighCardRanker.tie(hand_black, hand_white)
-        _ -> {highest_pair, nil}
+        {:tie, _} -> HighCardRanker.tie(hand_black, hand_white)
+        _ -> highest_pair
       end
 
     winner
@@ -42,19 +42,25 @@ defmodule PokerHands.Rankers.TwoPairRanker do
 
   def get_highest_pair(hand_black, hand_white) do
     black_card_values =
-      CardValueProvider.get_card_values(hand_black)
-      |> Enum.sort(&(&1 >= &2))
+      CardValueProvider.get_card_values_indexed(hand_black)
+      |> Enum.sort(&(elem(&1, 0) >= elem(&2, 0)))
       |> Enum.dedup()
 
     white_card_values =
-      CardValueProvider.get_card_values(hand_white)
-      |> Enum.sort(&(&1 >= &2))
+      CardValueProvider.get_card_values_indexed(hand_white)
+      |> Enum.sort(&(elem(&1, 0) >= elem(&2, 0)))
       |> Enum.dedup()
 
-    highest_pair =
+    {rank, highest_pair_index} =
       if HandComparer.hands_are_equal(black_card_values, white_card_values),
-        do: :tie,
-        else: HandComparer.compare_hands(black_card_values, white_card_values)
+        do: {:tie, nil},
+        else: HandComparer.compare_hands_indexed(black_card_values, white_card_values)
+    
+    highest_pair = case rank do
+      :tie -> {:tie, nil}
+      :black -> {:black, [Enum.at(hand_black, highest_pair_index)]}
+      :white -> {:white, [Enum.at(hand_white, highest_pair_index)]}
+    end
 
     highest_pair
   end
