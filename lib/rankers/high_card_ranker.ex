@@ -16,11 +16,8 @@ defmodule PokerHands.Rankers.HighCardRanker do
       CardValueProvider.get_card_values_indexed(hand)
       |> get_highest_card_values()
 
-    result =
-      Enum.with_index(hand)
-      |> CardValueProvider.get_cards_with_highest_order(highest_card_values)
-
-    result
+    Enum.with_index(hand)
+    |> CardValueProvider.get_cards_with_highest_order(highest_card_values)
   end
 
   @doc ~S"""
@@ -33,27 +30,27 @@ defmodule PokerHands.Rankers.HighCardRanker do
       {:white, [A: :H]}
   """
   def tie(hand_black, hand_white) do
+    {black_hand_parsed, _} = hand_black
+    {white_hand_parsed, _} = hand_white
+
     black_card_values =
-      CardValueProvider.get_card_values_indexed(elem(hand_black, 0))
+      CardValueProvider.get_card_values_indexed(black_hand_parsed)
       |> CardValueProvider.get_card_values_sorted()
 
     white_card_values =
-      CardValueProvider.get_card_values_indexed(elem(hand_white, 0))
+      CardValueProvider.get_card_values_indexed(white_hand_parsed)
       |> CardValueProvider.get_card_values_sorted()
 
-    result =
-      if HandComparer.hands_are_equal(black_card_values, white_card_values) do
-        {:tie, nil}
-      else
-        {winner, card_index} =
-          HandComparer.compare_hands_indexed(black_card_values, white_card_values)
+    if HandComparer.hands_are_equal(black_card_values, white_card_values) do
+      {:tie, nil}
+    else
+      {winner, card_index} =
+        HandComparer.compare_hands_indexed(black_card_values, white_card_values)
 
-        if winner == :tie,
-          do: {:tie, nil},
-          else: get_tie_winner({winner, card_index}, elem(hand_black, 0), elem(hand_white, 0))
-      end
-
-    result
+      if winner == :tie,
+        do: {:tie, nil},
+        else: get_tie_winner({winner, card_index}, black_hand_parsed, white_hand_parsed)
+    end
   end
 
   defp get_tie_winner({winner, card_index}, hand_black, hand_white) do
@@ -67,12 +64,9 @@ defmodule PokerHands.Rankers.HighCardRanker do
   end
 
   defp get_highest_card_values(card_values) do
-    highest_card_value = Enum.max_by(card_values, fn x -> elem(x, 0) end)
+    {highest_card_value, _} = Enum.max_by(card_values, fn {x, _} -> x end)
 
-    all_highest_card_values =
-      Enum.filter(card_values, fn x -> elem(x, 0) == elem(highest_card_value, 0) end)
-      |> Enum.map(fn x -> elem(x, 1) end)
-
-    all_highest_card_values
+    Enum.filter(card_values, fn {x, _} -> x == highest_card_value end)
+    |> Enum.map(fn {_, x} -> x end)
   end
 end
