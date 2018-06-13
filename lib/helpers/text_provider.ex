@@ -6,7 +6,7 @@ defmodule PokerHands.Helpers.TextProvider do
 
   ## Examples
       iex> PokerHands.Helpers.TextProvider.get_rank_winner_card_text(:high_card, [K: :C])
-      "king of clubs"
+      "king"
 
       iex> PokerHands.Helpers.TextProvider.get_rank_winner_card_text(:two_pair, [K: :C])
       "king"
@@ -43,18 +43,6 @@ defmodule PokerHands.Helpers.TextProvider do
     rank_winner_card_text
   end
 
-  defp get_card_suit_text(card_suit) do
-    card_suit_text =
-      case card_suit do
-        :C -> "clubs"
-        :D -> "diamonds"
-        :H -> "hearts"
-        :S -> "spades"
-      end
-
-    card_suit_text
-  end
-
   defp get_card_value_text(card_value) do
     card_value_text =
       case card_value do
@@ -79,7 +67,7 @@ defmodule PokerHands.Helpers.TextProvider do
   defp get_hand_card_value_text(winner_cards) do
     text =
       Enum.map(winner_cards, fn x ->
-        "#{get_card_value_text(elem(x, 0))} of #{get_card_suit_text(elem(x, 1))}"
+        "#{get_card_value_text(elem(x, 0))}"
       end)
       |> Enum.join(" and ")
 
