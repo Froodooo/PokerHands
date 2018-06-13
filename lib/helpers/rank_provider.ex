@@ -13,22 +13,22 @@ defmodule PokerHands.Helpers.RankProvider do
   Gets the highest rank given two hand ranks.
 
   ## Examples
-      iex> PokerHands.Helpers.RankProvider.get_highest_rank(
+      iex> PokerHands.Helpers.RankProvider.get_winner_player(
       ...> {:high_card, [K: :D]},
       ...> {:flush, ["2": :C,"3": :C,"5": :C,"9": :C,K: :C]})
       :white
 
-      iex> PokerHands.Helpers.RankProvider.get_highest_rank(
+      iex> PokerHands.Helpers.RankProvider.get_winner_player(
       ...> {:flush, ["2": :C,"3": :C,"5": :C,"9": :C,K: :C]},
       ...> {:two_pair, ["2": :H,"3": :H,"2": :H,"3": :H]})
       :black
 
-      iex> PokerHands.Helpers.RankProvider.get_highest_rank(
+      iex> PokerHands.Helpers.RankProvider.get_winner_player(
       ...> {:flush, ["2": :C,"3": :C,"5": :C,"9": :C,K: :C]},
       ...> {:flush, ["2": :D,"3": :D,"5": :D,"9": :D,K: :D]})
       :tie
   """
-  def get_highest_rank(black_rank, white_rank) do
+  def get_winner_player(black_rank, white_rank) do
     black_rank_order = get_rank_order(black_rank)
     white_rank_order = get_rank_order(white_rank)
 

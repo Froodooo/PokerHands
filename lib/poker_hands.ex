@@ -21,41 +21,51 @@ defmodule PokerHands do
       "Tie"
   """
   def run(black_hand, white_hand) do
-    {black_hand_parsed, white_hand_parsed} =
-      {HandParser.parse(black_hand), HandParser.parse(white_hand)}
+    black_hand_parsed = HandParser.parse(black_hand)
+    white_hand_parsed = HandParser.parse(white_hand)
 
-    {black_hand_ranked, white_hand_ranked} =
-      {CardRanker.rank(black_hand_parsed), CardRanker.rank(white_hand_parsed)}
+    {black_hand_rank, black_hand_ranked_cards} = CardRanker.rank(black_hand_parsed)
+    {white_hand_rank, white_hand_ranked_cards} = CardRanker.rank(white_hand_parsed)
 
-    highest_rank = RankProvider.get_highest_rank(black_hand_ranked, white_hand_ranked)
+    winner_player =
+      RankProvider.get_winner_player(
+        {black_hand_rank, black_hand_ranked_cards},
+        {white_hand_rank, white_hand_ranked_cards}
+      )
 
-    winner =
-      case highest_rank do
+    {winner_player, winner_cards} =
+      case winner_player do
         :tie ->
           determine_winner_by_tie(
             black_hand_parsed,
-            black_hand_ranked,
+            {black_hand_rank, black_hand_ranked_cards},
             white_hand_parsed,
-            white_hand_ranked
+            {white_hand_rank, white_hand_ranked_cards}
           )
 
         _ ->
-          determine_winner_by_highest_rank(highest_rank, black_hand_ranked, white_hand_ranked)
+          determine_winner_by_highest_rank(
+            winner_player,
+            black_hand_ranked_cards,
+            white_hand_ranked_cards
+          )
       end
 
-    winner_text = OutputProvider.get_winner_text(winner, black_hand_ranked, white_hand_ranked)
-    winner_text
+    OutputProvider.get_winner_text(
+      {winner_player, winner_cards},
+      {black_hand_rank, black_hand_ranked_cards},
+      {white_hand_rank, white_hand_ranked_cards}
+    )
   end
 
-  defp determine_winner_by_highest_rank(highest_rank, black_hand_ranked, white_hand_ranked) do
-    winner_hand =
-      case highest_rank do
-        :black -> elem(black_hand_ranked, 1)
-        :white -> elem(white_hand_ranked, 1)
+  defp determine_winner_by_highest_rank(winner_player, black_hand_ranked, white_hand_ranked) do
+    winner_cards =
+      case winner_player do
+        :black -> black_hand_ranked
+        :white -> white_hand_ranked
       end
 
-    winner = {highest_rank, winner_hand}
-    winner
+    {winner_player, winner_cards}
   end
 
   defp determine_winner_by_tie(
@@ -64,15 +74,13 @@ defmodule PokerHands do
          white_hand_parsed,
          white_hand_ranked
        ) do
-    tied_rank = elem(black_hand_ranked, 0)
-    rank_tie_function = RankProvider.get_rank_tie_function(tied_rank)
+    {black_hand_rank, black_hand_ranked_cards} = black_hand_ranked
+    {_, white_hand_ranked_cards} = white_hand_ranked
+    rank_tie_function = RankProvider.get_rank_tie_function(black_hand_rank)
 
-    winner =
-      rank_tie_function.(
-        {black_hand_parsed, elem(black_hand_ranked, 1)},
-        {white_hand_parsed, elem(white_hand_ranked, 1)}
-      )
-
-    winner
+    rank_tie_function.(
+      {black_hand_parsed, black_hand_ranked_cards},
+      {white_hand_parsed, white_hand_ranked_cards}
+    )
   end
 end
