@@ -32,14 +32,11 @@ defmodule PokerHands.Helpers.RankProvider do
     black_rank_order = get_rank_order(black_rank)
     white_rank_order = get_rank_order(white_rank)
 
-    result =
-      cond do
-        black_rank_order > white_rank_order -> :black
-        white_rank_order > black_rank_order -> :white
-        true -> :tie
-      end
-
-    result
+    cond do
+      black_rank_order > white_rank_order -> :black
+      white_rank_order > black_rank_order -> :white
+      true -> :tie
+    end
   end
 
   @doc ~S"""
