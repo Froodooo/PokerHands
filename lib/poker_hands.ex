@@ -12,7 +12,7 @@ defmodule PokerHands do
       "White wins - high card: ace of hearts"
 
       iex> PokerHands.run("2H 4S 4C 3D 4H", "2S 8S AS QS 3S")
-      "White wins - flush: ace of spades"
+      "White wins - flush: ace"
 
       iex> PokerHands.run("2H 3D 5S 9C KD", "2C 3H 4S 8C KH")
       "Black wins - high card: nine of clubs"

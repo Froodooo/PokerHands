@@ -9,8 +9,8 @@ defmodule PokerHands.Rankers.FullHouseRanker do
   Ranks the given hand and returns true if it's a full house.
 
   ## Examples
-      iex> PokerHands.Rankers.FullHouseRanker.rank([{:"2", :S}, {:"3", :S}, {:"4", :S}, {:"5", :C}, {:"6", :C}])
-      {true, [{:"2", :S}, {:"3", :S}, {:"4", :S}, {:"5", :C}, {:"6", :C}]}
+      iex> PokerHands.Rankers.FullHouseRanker.rank([{:"2", :S}, {:"2", :D}, {:"2", :H}, {:"5", :C}, {:"5", :D}])
+      {true, [{:"2", :S}, {:"2", :D}, {:"2", :H}, {:"5", :C}, {:"5", :D}]}
   """
   def rank(hand) do
     {sets_3, sets_2} = {SetProvider.get_card_sets(hand, 3), SetProvider.get_card_sets(hand, 2)}
@@ -44,11 +44,12 @@ defmodule PokerHands.Rankers.FullHouseRanker do
         {HandComparer.compare_hands(black_card_values_sorted, white_card_values_sorted), nil}
       end
 
-    result = case winner do
-      {:tie, _} -> winner
-      {:black, _} -> {:black, elem(hand_black, 1)}
-      {:white, _} -> {:white, elem(hand_white, 1)}
-    end
+    result =
+      case winner do
+        {:tie, _} -> winner
+        {:black, _} -> {:black, elem(hand_black, 1)}
+        {:white, _} -> {:white, elem(hand_white, 1)}
+      end
 
     result
   end

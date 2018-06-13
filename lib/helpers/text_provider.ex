@@ -15,16 +15,16 @@ defmodule PokerHands.Helpers.TextProvider do
       "king and ace"
 
       iex> PokerHands.Helpers.TextProvider.get_rank_winner_card_text(:straight, [T: :C, J: :D, Q: :C, K: :D, A: :S])
-      "ace of spades"
+      "ace"
 
       iex> PokerHands.Helpers.TextProvider.get_rank_winner_card_text(:straight, [A: :S])
-      "ace of spades"
+      "ace"
 
       iex> PokerHands.Helpers.TextProvider.get_rank_winner_card_text(:flush, ["9": :C, T: :C, J: :D, Q: :C, K: :C])
-      "king of clubs"
+      "king"
 
       iex> PokerHands.Helpers.TextProvider.get_rank_winner_card_text(:straight_flush, [T: :C, J: :C, K: :C, Q: :C, A: :C])
-      "ace of clubs"
+      "ace"
   """
   def get_rank_winner_card_text(rank, winner_cards) do
     rank_winner_card_text =
@@ -94,7 +94,7 @@ defmodule PokerHands.Helpers.TextProvider do
 
     highest_card = Enum.at(winner_cards, elem(highest_card_value, 1))
 
-    text ="#{get_card_value_text(elem(highest_card, 0))}"
+    text = "#{get_card_value_text(elem(highest_card, 0))}"
 
     text
   end

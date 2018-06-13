@@ -55,12 +55,13 @@ defmodule PokerHands.Rankers.TwoPairRanker do
       if HandComparer.hands_are_equal(black_card_values, white_card_values),
         do: {:tie, nil},
         else: HandComparer.compare_hands_indexed(black_card_values, white_card_values)
-    
-    highest_pair = case rank do
-      :tie -> {:tie, nil}
-      :black -> {:black, [Enum.at(hand_black, highest_pair_index)]}
-      :white -> {:white, [Enum.at(hand_white, highest_pair_index)]}
-    end
+
+    highest_pair =
+      case rank do
+        :tie -> {:tie, nil}
+        :black -> {:black, [Enum.at(hand_black, highest_pair_index)]}
+        :white -> {:white, [Enum.at(hand_white, highest_pair_index)]}
+      end
 
     highest_pair
   end

@@ -31,8 +31,8 @@ defmodule PokerHands.Rankers.CardRanker do
       iex> PokerHands.Rankers.CardRanker.rank(["9": :C,J: :C,Q: :C,K: :C,A: :C])
       {:flush, ["9": :C,J: :C,Q: :C,K: :C,A: :C]}
 
-      iex> PokerHands.Rankers.CardRanker.rank(["9": :C,J: :C,Q: :C,K: :D,A: :D])
-      {:full_house, ["9": :C,J: :C,Q: :C,K: :D,A: :D]}
+      iex> PokerHands.Rankers.CardRanker.rank(["9": :C,"9": :D,"9": :S,K: :D,K: :S])
+      {:full_house, ["9": :C,"9": :D,"9": :S,K: :D,K: :S]}
 
       iex> PokerHands.Rankers.CardRanker.rank(["9": :C,"9": :D,"9": :S,"9": :H,A: :D])
       {:four_of_a_kind, ["9": :C,"9": :D,"9": :S,"9": :H]}

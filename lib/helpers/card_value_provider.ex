@@ -59,7 +59,7 @@ defmodule PokerHands.Helpers.CardValueProvider do
       iex> PokerHands.Helpers.CardValueProvider.get_card_with_highest_set_value(
       ...> {["2": :H, "3": :D, "5": :S, "9": :C, K: :D], [K: :D]},
       ...> {["2": :C, "3": :H, "4": :S, "8": :C, A: :H], [A: :H]})
-      :white
+      {:white, [A: :H]}
   """
   def get_card_with_highest_set_value(hand_black, hand_white) do
     black_card_values = get_card_values_indexed(elem(hand_black, 1))
@@ -74,7 +74,7 @@ defmodule PokerHands.Helpers.CardValueProvider do
         card_value_white > card_value_black -> {:white, elem(hand_white, 1)}
         true -> {:tie, nil}
       end
-      
+
     winner
   end
 
