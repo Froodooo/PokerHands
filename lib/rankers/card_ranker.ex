@@ -44,46 +44,27 @@ defmodule PokerHands.Rankers.CardRanker do
       {:straight_flush, [T: :C,J: :C,Q: :C,K: :C,A: :C]}
   """
   def rank(hand) do
-    rank =
-      nil
-      |> rank(&StraightFlushRanker.rank/1, hand, :straight_flush)
-      |> rank(&FourOfAKindRanker.rank/1, hand, :four_of_a_kind)
-      |> rank(&FullHouseRanker.rank/1, hand, :full_house)
-      |> rank(&FlushRanker.rank/1, hand, :flush)
-      |> rank(&StraightRanker.rank/1, hand, :straight)
-      |> rank(&ThreeOfAKindRanker.rank/1, hand, :three_of_a_kind)
-      |> rank(&TwoPairRanker.rank/1, hand, :two_pair)
-      |> rank(&SinglePairRanker.rank/1, hand, :single_pair)
-      |> rank(&HighCardRanker.rank/1, hand, :high_card)
-
-    rank
+    nil
+    |> rank_with_function(&StraightFlushRanker.rank/1, hand, :straight_flush)
+    |> rank_with_function(&FourOfAKindRanker.rank/1, hand, :four_of_a_kind)
+    |> rank_with_function(&FullHouseRanker.rank/1, hand, :full_house)
+    |> rank_with_function(&FlushRanker.rank/1, hand, :flush)
+    |> rank_with_function(&StraightRanker.rank/1, hand, :straight)
+    |> rank_with_function(&ThreeOfAKindRanker.rank/1, hand, :three_of_a_kind)
+    |> rank_with_function(&TwoPairRanker.rank/1, hand, :two_pair)
+    |> rank_with_function(&SinglePairRanker.rank/1, hand, :single_pair)
+    |> rank_with_function(&HighCardRanker.rank/1, hand, :high_card)
   end
 
-  defp rank(rank, rank_function, hand, rank_atom) do
-    ranked_hand =
-      if rank != nil do
-        rank
-      else
-        rank = rank_function.(hand)
-        is_ranked = is_ranked(rank)
+  defp rank_with_function(rank, rank_function, hand, rank_atom) do
+    if rank != nil do
+      rank
+    else
+      {is_of_rank, hand_ranked} = rank_function.(hand)
 
-        rank =
-          if is_ranked,
-            do: {rank_atom, elem(rank, 1)},
-            else: nil
-
-        rank
-      end
-
-    ranked_hand
-  end
-
-  defp is_ranked(rank) do
-    is_ranked =
-      if elem(rank, 0),
-        do: true,
-        else: false
-
-    is_ranked
+      if is_of_rank,
+        do: {rank_atom, hand_ranked},
+        else: nil
+    end
   end
 end
