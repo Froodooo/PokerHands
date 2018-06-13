@@ -15,8 +15,7 @@ defmodule PokerHands.Helpers.HandComparer do
   """
   def hands_are_equal(hand_black, hand_white) do
     hand_zipped = Enum.zip(hand_black, hand_white)
-    hands_are_equal = Enum.all?(hand_zipped, fn x -> elem(x, 0) == elem(x, 1) end)
-    hands_are_equal
+    Enum.all?(hand_zipped, fn {black_card, white_card} -> black_card == white_card end)
   end
 
   @doc ~S"""
@@ -33,14 +32,11 @@ defmodule PokerHands.Helpers.HandComparer do
     head_black = hd(hand_black)
     head_white = hd(hand_white)
 
-    winner =
-      cond do
-        head_black > head_white -> :black
-        head_white > head_black -> :white
-        true -> compare_hands(tl(hand_black), tl(hand_white))
-      end
-
-    winner
+    cond do
+      head_black > head_white -> :black
+      head_white > head_black -> :white
+      true -> compare_hands(tl(hand_black), tl(hand_white))
+    end
   end
 
   @doc ~S"""
@@ -57,13 +53,10 @@ defmodule PokerHands.Helpers.HandComparer do
     {head_black_value, head_black_index} = hd(hand_black)
     {head_white_value, head_white_index} = hd(hand_white)
 
-    winner =
-      cond do
-        head_black_value > head_white_value -> {:black, head_black_index}
-        head_white_value > head_black_value -> {:white, head_white_index}
-        true -> compare_hands_indexed(tl(hand_black), tl(hand_white))
-      end
-
-    winner
+    cond do
+      head_black_value > head_white_value -> {:black, head_black_index}
+      head_white_value > head_black_value -> {:white, head_white_index}
+      true -> compare_hands_indexed(tl(hand_black), tl(hand_white))
+    end
   end
 end
