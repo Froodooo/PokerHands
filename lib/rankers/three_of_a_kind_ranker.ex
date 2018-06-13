@@ -4,6 +4,9 @@ defmodule PokerHands.Rankers.ThreeOfAKindRanker do
   alias PokerHands.Helpers.SetProvider, as: SetProvider
   @behaviour HandRanker
 
+  @three_of_a_kind_size 3
+  @set_count 1
+
   @doc ~S"""
   Ranks the given hand and returns true if it's a three of a kind.
 
@@ -12,14 +15,11 @@ defmodule PokerHands.Rankers.ThreeOfAKindRanker do
       {true, [{:"2", :H}, {:"2", :S}, {:"2", :D}]}
   """
   def rank(hand) do
-    sets = SetProvider.get_card_value_sets(hand, 3)
+    sets = SetProvider.get_card_value_sets(hand, @three_of_a_kind_size)
 
-    rank =
-      if Enum.count(sets) == 0,
-        do: {false, []},
-        else: get_three_of_a_kind_hand_result(sets, hand)
-
-    rank
+    if Enum.count(sets) == @set_count,
+      do: get_three_of_a_kind_hand_result(sets, hand),
+      else: {false, []}
   end
 
   @doc ~S"""
@@ -35,10 +35,7 @@ defmodule PokerHands.Rankers.ThreeOfAKindRanker do
     {_, black_cards_ranked} = hand_black
     {_, white_cards_ranked} = hand_white
 
-    winner =
-      CardValueProvider.get_card_with_highest_set_value(black_cards_ranked, white_cards_ranked)
-
-    winner
+    CardValueProvider.get_card_with_highest_set_value(black_cards_ranked, white_cards_ranked)
   end
 
   defp get_three_of_a_kind_hand_result(sets, hand) do
