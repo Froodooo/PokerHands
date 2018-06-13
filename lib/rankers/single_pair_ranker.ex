@@ -5,6 +5,9 @@ defmodule PokerHands.Rankers.SinglePairRanker do
   alias PokerHands.Rankers.HighCardRanker, as: HighCardRanker
   @behaviour HandRanker
 
+  @single_pair_size 2
+  @set_count 1
+
   @doc ~S"""
   Ranks the given hand and returns true if it's a single pair.
 
@@ -13,19 +16,16 @@ defmodule PokerHands.Rankers.SinglePairRanker do
       {true, [{:"2", :H}, {:"2", :S}]}
   """
   def rank(hand) do
-    sets = SetProvider.get_card_value_sets(hand, 2)
+    sets = SetProvider.get_card_value_sets(hand, @single_pair_size)
 
-    result =
-      if Enum.count(sets) == 0 do
-        {false, []}
-      else
-        sets_indices = SetProvider.get_card_sets_indices(sets)
+    if Enum.count(sets) == @set_count do
+      sets_indices = SetProvider.get_card_sets_indices(sets)
 
-        Enum.with_index(hand)
-        |> CardValueProvider.get_cards_with_highest_order(sets_indices)
-      end
-
-    result
+      Enum.with_index(hand)
+      |> CardValueProvider.get_cards_with_highest_order(sets_indices)
+    else
+      {false, []}
+    end
   end
 
   @doc ~S"""
@@ -44,12 +44,9 @@ defmodule PokerHands.Rankers.SinglePairRanker do
     result =
       CardValueProvider.get_card_with_highest_set_value(black_cards_ranked, white_cards_ranked)
 
-    winner =
-      case result do
-        {:tie, _} -> HighCardRanker.tie(hand_black, hand_white)
-        _ -> result
-      end
-
-    winner
+    case result do
+      {:tie, _} -> HighCardRanker.tie(hand_black, hand_white)
+      _ -> result
+    end
   end
 end
