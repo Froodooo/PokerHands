@@ -72,9 +72,9 @@ defmodule PokerHands.Helpers.CardValueProvider do
       cond do
         card_value_black > card_value_white -> {:black, elem(hand_black, 1)}
         card_value_white > card_value_black -> {:white, elem(hand_white, 1)}
-        true -> :tie
+        true -> {:tie, nil}
       end
-
+      
     winner
   end
 

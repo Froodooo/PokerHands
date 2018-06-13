@@ -10,7 +10,7 @@ defmodule PokerHands.Rankers.FourOfAKindRanker do
       {true, [{:"2", :H}, {:"2", :S}, {:"2", :C}, {:"2", :D}]}
   """
   def rank(hand) do
-    sets = SetProvider.get_card_sets(hand, 4)
+    sets = SetProvider.get_card_value_sets(hand, 4)
 
     rank =
       if Enum.count(sets) == 0 do

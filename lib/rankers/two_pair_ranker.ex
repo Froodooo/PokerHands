@@ -14,7 +14,7 @@ defmodule PokerHands.Rankers.TwoPairRanker do
       {true, [{:"2", :H}, {:"3", :D}, {:"2", :S}, {:"3", :C}]}
   """
   def rank(hand) do
-    sets = SetProvider.get_card_sets(hand, 2)
+    sets = SetProvider.get_card_value_sets(hand, 2)
 
     rank =
       if Enum.count(sets) == 2 do

@@ -13,7 +13,7 @@ defmodule PokerHands.Rankers.SinglePairRanker do
       {true, [{:"2", :H}, {:"2", :S}]}
   """
   def rank(hand) do
-    sets = SetProvider.get_card_sets(hand, 2)
+    sets = SetProvider.get_card_value_sets(hand, 2)
 
     result =
       if Enum.count(sets) == 0 do
@@ -33,8 +33,8 @@ defmodule PokerHands.Rankers.SinglePairRanker do
 
     winner =
       case result do
-        :tie -> HighCardRanker.tie(hand_black, hand_white)
-        _ -> result
+        {:tie, _} -> HighCardRanker.tie(hand_black, hand_white)
+        true -> result
       end
 
     winner

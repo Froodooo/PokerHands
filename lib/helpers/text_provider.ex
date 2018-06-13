@@ -30,14 +30,14 @@ defmodule PokerHands.Helpers.TextProvider do
     rank_winner_card_text =
       case rank do
         :high_card -> get_hand_card_value_text(winner_cards)
-        :single_pair -> get_hand_card_value_text(winner_cards)
+        :single_pair -> get_unique_card_values_text(winner_cards)
         :two_pair -> get_two_pair_text(winner_cards)
-        :three_of_a_kind -> get_hand_card_value_text(winner_cards)
-        :straight -> get_straight_text(winner_cards)
-        :flush -> get_straight_text(winner_cards)
-        :full_house -> get_full_house_text(winner_cards)
-        :four_of_a_kind -> get_hand_card_value_text(winner_cards)
-        :straight_flush -> get_straight_text(winner_cards)
+        :three_of_a_kind -> get_unique_card_values_text(winner_cards)
+        :straight -> get_highest_card_value_text(winner_cards)
+        :flush -> get_highest_card_value_text(winner_cards)
+        :full_house -> get_highest_card_value_text(winner_cards)
+        :four_of_a_kind -> get_unique_card_values_text(winner_cards)
+        :straight_flush -> get_highest_card_value_text(winner_cards)
       end
 
     rank_winner_card_text
@@ -86,17 +86,7 @@ defmodule PokerHands.Helpers.TextProvider do
     text
   end
 
-  defp get_full_house_text(winner_cards) do
-    text =
-      Enum.map(winner_cards, fn x -> elem(x, 1) end)
-      |> Enum.uniq()
-      |> Enum.map(fn x -> get_card_suit_text(x) end)
-      |> Enum.join(" and ")
-
-    text
-  end
-
-  defp get_straight_text(winner_cards) do
+  defp get_highest_card_value_text(winner_cards) do
     highest_card_value =
       CardValueProvider.get_card_values_indexed(winner_cards)
       |> Enum.sort(&(elem(&1, 0) >= elem(&2, 0)))
@@ -104,10 +94,7 @@ defmodule PokerHands.Helpers.TextProvider do
 
     highest_card = Enum.at(winner_cards, elem(highest_card_value, 1))
 
-    text =
-      "#{get_card_value_text(elem(highest_card, 0))} of #{
-        get_card_suit_text(elem(highest_card, 1))
-      }"
+    text ="#{get_card_value_text(elem(highest_card, 0))}"
 
     text
   end
@@ -116,6 +103,16 @@ defmodule PokerHands.Helpers.TextProvider do
     text =
       Enum.map(winner_cards, fn x -> elem(x, 0) end)
       |> Enum.dedup()
+      |> Enum.map(fn x -> get_card_value_text(x) end)
+      |> Enum.join(" and ")
+
+    text
+  end
+
+  defp get_unique_card_values_text(winner_cards) do
+    text =
+      Enum.map(winner_cards, fn x -> elem(x, 0) end)
+      |> Enum.uniq()
       |> Enum.map(fn x -> get_card_value_text(x) end)
       |> Enum.join(" and ")
 

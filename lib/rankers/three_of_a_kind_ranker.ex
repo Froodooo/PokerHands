@@ -12,7 +12,7 @@ defmodule PokerHands.Rankers.ThreeOfAKindRanker do
       {true, [{:"2", :H}, {:"2", :S}, {:"2", :D}]}
   """
   def rank(hand) do
-    sets = SetProvider.get_card_sets(hand, 3)
+    sets = SetProvider.get_card_value_sets(hand, 3)
 
     rank =
       if Enum.count(sets) == 0,
@@ -23,7 +23,7 @@ defmodule PokerHands.Rankers.ThreeOfAKindRanker do
   end
 
   def tie(hand_black, hand_white) do
-    winner = {CardValueProvider.get_card_with_highest_set_value(hand_black, hand_white), nil}
+    winner = CardValueProvider.get_card_with_highest_set_value(hand_black, hand_white)
     winner
   end
 
