@@ -26,6 +26,15 @@ defmodule PokerHands.Rankers.StraightRanker do
     rank
   end
 
+  @doc ~S"""
+  Ranks the tied straight hands and returns the winner (if any).
+
+  ## Examples
+      iex> PokerHands.Rankers.StraightRanker.tie(
+      ...> {["9": :H, K: :C, J: :S, T: :C, Q: :D], ["9": :H, K: :C, J: :S, T: :C, Q: :D]},
+      ...> {["8": :C, T: :H, Q: :S, J: :D, "9": :S], ["8": :C, T: :H, Q: :S, J: :D, "9": :S]})
+      {:black, [K: :C]}
+  """
   def tie(hand_black, hand_white) do
     black_card_values = CardValueProvider.get_card_values_indexed(elem(hand_black, 1))
     white_card_values = CardValueProvider.get_card_values_indexed(elem(hand_white, 1))

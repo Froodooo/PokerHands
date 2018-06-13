@@ -28,6 +28,15 @@ defmodule PokerHands.Rankers.TwoPairRanker do
     rank
   end
 
+  @doc ~S"""
+  Ranks the tied two pair hands and returns the winner (if any).
+
+  ## Examples
+      iex> PokerHands.Rankers.TwoPairRanker.tie(
+      ...> {["2": :H, "3": :D, "2": :S, "9": :C, "3": :D], ["2": :H, "3": :D, "2": :S, "3": :D]},
+      ...> {[K: :C, "3": :H, "4": :S, "3": :C, "4": :H], ["3": :H, "4": :S, "3": :C, "4": :H]})
+      {:white, ["4": :S]}
+  """
   def tie(hand_black, hand_white) do
     highest_pair = get_highest_pair(elem(hand_black, 1), elem(hand_white, 1))
 
@@ -40,7 +49,7 @@ defmodule PokerHands.Rankers.TwoPairRanker do
     winner
   end
 
-  def get_highest_pair(hand_black, hand_white) do
+  defp get_highest_pair(hand_black, hand_white) do
     black_card_values =
       CardValueProvider.get_card_values_indexed(hand_black)
       |> Enum.sort(&(elem(&1, 0) >= elem(&2, 0)))

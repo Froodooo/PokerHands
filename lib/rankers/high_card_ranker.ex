@@ -23,6 +23,15 @@ defmodule PokerHands.Rankers.HighCardRanker do
     result
   end
 
+  @doc ~S"""
+  Ranks the tied high card hands and returns the winner (if any).
+
+  ## Examples
+      iex> PokerHands.Rankers.HighCardRanker.tie(
+      ...> {["2": :H, "3": :D, "5": :S, "9": :C, K: :D], [K: :D]},
+      ...> {["2": :C, "3": :H, "4": :S, "8": :C, A: :H], [A: :H]})
+      {:white, [A: :H]}
+  """
   def tie(hand_black, hand_white) do
     black_card_values =
       CardValueProvider.get_card_values_indexed(elem(hand_black, 0))

@@ -26,6 +26,15 @@ defmodule PokerHands.Rankers.FourOfAKindRanker do
     rank
   end
 
+  @doc ~S"""
+  Ranks the tied four of a kind hands and returns the winner (if any).
+
+  ## Examples
+      iex> PokerHands.Rankers.FourOfAKindRanker.tie(
+      ...> {["7": :H, "7": :S, "7": :D, J: :H, "7": :C], ["7": :H, "7": :S, "7": :D, "7": :C]},
+      ...> {["9": :H, K: :S, "9": :S, "9": :D, "9": :C], ["9": :H, "9": :S, "9": :D, "9": :C]})
+      {:white, ["9": :H, "9": :S, "9": :D, "9": :C]}
+  """
   def tie(hand_black, hand_white) do
     winner = ThreeOfAKindRanker.tie(hand_black, hand_white)
     winner

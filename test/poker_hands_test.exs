@@ -39,7 +39,8 @@ defmodule PokerHandsTest do
   end
 
   test "three of a kind win over three of a kind" do
-    assert PokerHands.run("2D 7H TC TS TD", "2H 7D JS JC JH") == "White wins - three of a kind: jack"
+    assert PokerHands.run("2D 7H TC TS TD", "2H 7D JS JC JH") ==
+             "White wins - three of a kind: jack"
   end
 
   test "straight tie" do
@@ -63,7 +64,8 @@ defmodule PokerHandsTest do
   end
 
   test "four of a kind win over four of a kind" do
-    assert PokerHands.run("2D 2H 2C 2S 5H", "3D 3H 3C 3S 2H") == "White wins - four of a kind: three"
+    assert PokerHands.run("2D 2H 2C 2S 5H", "3D 3H 3C 3S 2H") ==
+             "White wins - four of a kind: three"
   end
 
   test "straight flush tie" do
@@ -71,6 +73,7 @@ defmodule PokerHandsTest do
   end
 
   test "straight flush win over straight flush" do
-    assert PokerHands.run("2D 3D 4D 5D 6D", "7H 3H 4H 5H 6H") == "White wins - straight flush: seven"
+    assert PokerHands.run("2D 3D 4D 5D 6D", "7H 3H 4H 5H 6H") ==
+             "White wins - straight flush: seven"
   end
 end

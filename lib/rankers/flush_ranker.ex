@@ -22,6 +22,15 @@ defmodule PokerHands.Rankers.FlushRanker do
     rank
   end
 
+  @doc ~S"""
+  Ranks the tied flush hands and returns the winner (if any).
+
+  ## Examples
+      iex> PokerHands.Rankers.FlushRanker.tie(
+      ...> {["7": :H, K: :H, J: :H, "3": :H, Q: :H], ["7": :H, K: :H, J: :H, "3": :H, Q: :H]},
+      ...> {["8": :H, T: :H, A: :H, "5": :H, "2": :H], ["8": :H, T: :H, A: :H, "5": :H, "2": :H]})
+      {:white, [A: :H]}
+  """
   def tie(hand_black, hand_white) do
     winner = HighCardRanker.tie(hand_black, hand_white)
     winner

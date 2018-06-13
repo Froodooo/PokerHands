@@ -23,6 +23,15 @@ defmodule PokerHands.Rankers.FullHouseRanker do
     rank
   end
 
+  @doc ~S"""
+  Ranks the tied full house hands and returns the winner (if any).
+
+  ## Examples
+      iex> PokerHands.Rankers.FullHouseRanker.tie(
+      ...> {["7": :H, "7": :S, J: :H, "7": :H, J: :C], ["7": :H, "7": :S, J: :H, "7": :H, J: :C]},
+      ...> {[K: :H, K: :S, "4": :H, K: :D, "4": :S], [K: :H, K: :S, "4": :H, K: :D, "4": :S]})
+      {:white, [K: :H, K: :S, "4": :H, K: :D, "4": :S]}
+  """
   def tie(hand_black, hand_white) do
     hand_black_sets_3 = SetProvider.get_card_sets(elem(hand_black, 1), 3)
     hand_white_sets_3 = SetProvider.get_card_sets(elem(hand_white, 1), 3)

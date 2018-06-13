@@ -22,6 +22,15 @@ defmodule PokerHands.Rankers.ThreeOfAKindRanker do
     rank
   end
 
+  @doc ~S"""
+  Ranks the tied three of a kind hands and returns the winner (if any).
+
+  ## Examples
+      iex> PokerHands.Rankers.ThreeOfAKindRanker.tie(
+      ...> {[K: :H, K: :C, "5": :S, A: :C, K: :D], [K: :H, K: :C, K: :D]},
+      ...> {[Q: :C, "3": :H, Q: :S, Q: :D, K: :H], [Q: :C, Q: :S, Q: :D]})
+      {:black, [K: :H, K: :C, K: :D]}
+  """
   def tie(hand_black, hand_white) do
     winner = CardValueProvider.get_card_with_highest_set_value(hand_black, hand_white)
     winner

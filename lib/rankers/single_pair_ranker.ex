@@ -28,6 +28,15 @@ defmodule PokerHands.Rankers.SinglePairRanker do
     result
   end
 
+  @doc ~S"""
+  Ranks the tied single pair hands and returns the winner (if any).
+
+  ## Examples
+      iex> PokerHands.Rankers.SinglePairRanker.tie(
+      ...> {["2": :H, "3": :D, "2": :S, "9": :C, K: :D], ["2": :H, "2": :S]},
+      ...> {["2": :C, "3": :H, "4": :S, "3": :C, A: :H], ["3": :H, "3": :C]})
+      {:white, ["3": :H, "3": :C]}
+  """
   def tie(hand_black, hand_white) do
     result = CardValueProvider.get_card_with_highest_set_value(hand_black, hand_white)
 
