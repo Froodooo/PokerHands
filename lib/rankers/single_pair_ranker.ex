@@ -38,7 +38,11 @@ defmodule PokerHands.Rankers.SinglePairRanker do
       {:white, ["3": :H, "3": :C]}
   """
   def tie(hand_black, hand_white) do
-    result = CardValueProvider.get_card_with_highest_set_value(hand_black, hand_white)
+    {_, black_cards_ranked} = hand_black
+    {_, white_cards_ranked} = hand_white
+
+    result =
+      CardValueProvider.get_card_with_highest_set_value(black_cards_ranked, white_cards_ranked)
 
     winner =
       case result do

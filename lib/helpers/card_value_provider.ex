@@ -7,8 +7,7 @@ defmodule PokerHands.Helpers.CardValueProvider do
       [2, 3, 5, 9, 13]
   """
   def get_card_values(hand) do
-    card_values = Enum.map(hand, fn x -> get_card_value_order(elem(x, 0)) end)
-    card_values
+    Enum.map(hand, fn {x, _} -> get_card_value_order(x) end)
   end
 
   @doc ~S"""
@@ -19,8 +18,7 @@ defmodule PokerHands.Helpers.CardValueProvider do
       [{2, 0},{3, 1},{5, 2},{9, 3},{13, 4}]
   """
   def get_card_values_indexed(hand) do
-    card_values = get_card_values(hand) |> Enum.with_index()
-    card_values
+    get_card_values(hand) |> Enum.with_index()
   end
 
   @doc ~S"""
@@ -31,8 +29,7 @@ defmodule PokerHands.Helpers.CardValueProvider do
       [{13,4},{9,3},{5,2},{3,1},{2,0}]
   """
   def get_card_values_sorted(hand) do
-    values = Enum.sort(hand, &(elem(&1, 0) >= elem(&2, 0)))
-    values
+    Enum.sort(hand, &(elem(&1, 0) >= elem(&2, 0)))
   end
 
   @doc ~S"""
@@ -45,11 +42,10 @@ defmodule PokerHands.Helpers.CardValueProvider do
   """
   def get_cards_with_highest_order(hand_indexed, hand_highest_orders_indices) do
     hand_result =
-      Enum.filter(hand_indexed, fn x -> elem(x, 1) in hand_highest_orders_indices end)
-      |> Enum.map(fn x -> elem(x, 0) end)
+      Enum.filter(hand_indexed, fn {_, x} -> x in hand_highest_orders_indices end)
+      |> Enum.map(fn {x, _} -> x end)
 
-    result = {true, hand_result}
-    result
+    {true, hand_result}
   end
 
   @doc ~S"""
@@ -57,25 +53,25 @@ defmodule PokerHands.Helpers.CardValueProvider do
 
   ## Examples
       iex> PokerHands.Helpers.CardValueProvider.get_card_with_highest_set_value(
-      ...> {["2": :H, "3": :D, "5": :S, "9": :C, K: :D], [K: :D]},
-      ...> {["2": :C, "3": :H, "4": :S, "8": :C, A: :H], [A: :H]})
+      ...> [K: :D],
+      ...> [A: :H])
       {:white, [A: :H]}
   """
-  def get_card_with_highest_set_value(hand_black, hand_white) do
-    black_card_values = get_card_values_indexed(elem(hand_black, 1))
-    white_card_values = get_card_values_indexed(elem(hand_white, 1))
+  def get_card_with_highest_set_value(black_cards_ranked, white_cards_ranked) do
+    black_card_values = get_card_values_indexed(black_cards_ranked)
+    white_card_values = get_card_values_indexed(white_cards_ranked)
 
-    card_value_black = elem(Enum.at(black_card_values, 0), 0)
-    card_value_white = elem(Enum.at(white_card_values, 0), 0)
+    highest_black_card_value = Enum.at(black_card_values, 0)
+    highest_white_card_value = Enum.at(white_card_values, 0)
 
-    winner =
-      cond do
-        card_value_black > card_value_white -> {:black, elem(hand_black, 1)}
-        card_value_white > card_value_black -> {:white, elem(hand_white, 1)}
-        true -> {:tie, nil}
-      end
+    {card_value_black, _} = highest_black_card_value
+    {card_value_white, _} = highest_white_card_value
 
-    winner
+    cond do
+      card_value_black > card_value_white -> {:black, black_cards_ranked}
+      card_value_white > card_value_black -> {:white, white_cards_ranked}
+      true -> {:tie, nil}
+    end
   end
 
   defp get_card_value_order(atom) do
