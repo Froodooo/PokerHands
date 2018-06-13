@@ -13,15 +13,12 @@ defmodule PokerHands.Rankers.StraightFlushRanker do
       {true, [{:"3", :S}, {:"2", :S}, {:"5", :S}, {:"6", :S}, {:"4", :S}]}
   """
   def rank(hand) do
-    is_straight = elem(StraightRanker.rank(hand), 0)
-    is_flush = elem(FlushRanker.rank(hand), 0)
+    {is_straight, _} = StraightRanker.rank(hand)
+    {is_flush, _} = FlushRanker.rank(hand)
 
-    rank =
-      if is_straight && is_flush,
-        do: {true, hand},
-        else: {false, hand}
-
-    rank
+    if is_straight && is_flush,
+      do: {true, hand},
+      else: {false, hand}
   end
 
   @doc ~S"""
@@ -34,7 +31,6 @@ defmodule PokerHands.Rankers.StraightFlushRanker do
       {:white, [K: :S]}
   """
   def tie(hand_black, hand_white) do
-    winner = HighCardRanker.tie(hand_black, hand_white)
-    winner
+    HighCardRanker.tie(hand_black, hand_white)
   end
 end
