@@ -4,6 +4,9 @@ defmodule PokerHands.Rankers.FlushRanker do
   alias PokerHands.Helpers.SuitProvider, as: SuitProvider
   @behaviour HandRanker
 
+  @flush_size 5
+  @suit_count 1
+
   @doc ~S"""
   Ranks the given hand and returns true if it's a flush.
 
@@ -12,14 +15,11 @@ defmodule PokerHands.Rankers.FlushRanker do
       {true, [{:"2", :S}, {:"3", :S}, {:"4", :S}, {:"5", :S}, {:"6", :S}]}
   """
   def rank(hand) do
-    suits = SuitProvider.get_suit(hand, 5)
+    suits = SuitProvider.get_suit(hand, @flush_size)
 
-    rank =
-      if Enum.count(suits) == 1,
-        do: {true, hand},
-        else: {false, []}
-
-    rank
+    if Enum.count(suits) == @suit_count,
+      do: {true, hand},
+      else: {false, []}
   end
 
   @doc ~S"""
@@ -32,7 +32,6 @@ defmodule PokerHands.Rankers.FlushRanker do
       {:white, [A: :H]}
   """
   def tie(hand_black, hand_white) do
-    winner = HighCardRanker.tie(hand_black, hand_white)
-    winner
+    HighCardRanker.tie(hand_black, hand_white)
   end
 end
