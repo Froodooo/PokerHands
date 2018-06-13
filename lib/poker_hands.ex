@@ -51,10 +51,10 @@ defmodule PokerHands do
           )
       end
 
-    OutputProvider.get_winner_text(
+    OutputProvider.get_output_text(
       {winner_player, winner_cards},
-      {black_hand_rank, black_hand_ranked_cards},
-      {white_hand_rank, white_hand_ranked_cards}
+      black_hand_rank,
+      white_hand_rank
     )
   end
 
