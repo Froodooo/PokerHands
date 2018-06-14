@@ -3,7 +3,7 @@
 Returns the winner of two poker hands.
 
 ## Example input:
-1. `> iex -S mix`
+1. `...> iex -S mix`
 2. `iex> PokerHands.run("2H 3D 5S 9C KD", "2C 3H 4S 8C AH")`
 
 ## Output:
